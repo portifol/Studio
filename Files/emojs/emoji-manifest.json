@@ -28,5 +28,10 @@
     "name": "yanflare_green_key",
     "label": "Yanflare green key",
     "path": "Files/emojs/Yanflare_GreenKey.png"
+  },
+  {
+    "name": "muted_mic",
+    "label": "Muted microphone",
+    "path": "Files/emojs/muted_mic.svg"
   }
 ]
