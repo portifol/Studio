@@ -146,6 +146,12 @@
         .inline-check { display: flex; align-items: flex-start; gap: 9px; line-height: 1.45; }
         .inline-check input { flex: 0 0 auto; margin: 2px 0 0; }
         .card-list { display: grid; gap: 12px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+        .stat-card { padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fffcfd; display: grid; gap: 8px; }
+        .stat-card .form-card-head { margin: 0; }
+        .stat-card .field { margin: 0; }
+        .stat-card .field-row { gap: 8px; }
+        .stat-card input, .stat-card select { padding: 8px 10px; }
         .form-card { padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #fffcfd; }
         .form-card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
         .form-card-head strong { font-size: .92rem; }
@@ -285,7 +291,7 @@
         }
         .portfolio-status { color: #8f6c77; margin: 0 0 14px; }
         .portfolio-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 18px 0; }
-        .portfolio-stat { position: relative; border-radius: 10px; padding: 9px; background: var(--p-soft); font-size: .88rem; font-weight: 650; }
+        .portfolio-stat { position: relative; border-radius: 10px; padding: 9px; background: var(--p-soft, #ffe4e9); font-size: .88rem; font-weight: 650; color: var(--p-ink, #4a4a4a); }
         .portfolio-badges { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
         .portfolio-badges img { width: 30px; height: 30px; object-fit: contain; }
         .portfolio-bio { border-left: 4px solid var(--p-accent); padding: 14px; background: #fffcfc; border-radius: 8px; text-align: left; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
@@ -358,19 +364,23 @@
         </header>
 
         <section id="welcome-view" class="welcome panel">
-            <h1>Make Youre own portifolio like Flair's one</h1>
-            <p class="lead">Create your page or update one you already made. We’ll guide you through each step.</p>
-            <div class="choice-grid">
-                <button class="choice" type="button" data-mode="new">
-                    <strong>Set up a new portfolio</strong>
-                    <span>Connect an empty repository and build your page step by step.</span>
-                </button>
-                <button class="choice" type="button" data-mode="edit">
-                    <strong>Edit an existing portfolio</strong>
-                    <span>Open a portfolio made by this editor and update its supported fields.</span>
-                </button>
+            <h1>Make your own portfolio like Flair’s</h1>
+            <p class="lead">portifol Studio helps you build a simple, pretty personal page and publish it with GitHub Pages. No coding needed — just answer a few questions, add pictures and links, and we’ll turn it into a website.</p>
+            <div class="note" style="margin:20px 0">
+                <strong>What you can do:</strong>
+                <ul style="margin:8px 0 0;padding-left:20px">
+                    <li>Pick a colour, profile picture, and banner</li>
+                    <li>Add a bio, stats, badges, and social links</li>
+                    <li>Show your local time, interests, and extra sections</li>
+                    <li>Save everything to a GitHub repository and publish it</li>
+                </ul>
             </div>
-            <p class="small">You’ll need a GitHub account. We’ll walk you through creating a repository and a short-lived access token.</p>
+            <p class="small">Examples of pages made with this tool look like clean profile cards with photos, buttons, and interest cards — similar to Flair’s community pages.</p>
+            <div class="row" style="margin-top:24px">
+                <button id="get-started" type="button">Get started</button>
+                <a class="button secondary" href="https://discord.gg/a5ZHryDmun" target="_blank" rel="noopener noreferrer">Join community ↗</a>
+            </div>
+            <p class="small" style="margin-top:18px;text-align:center"><a href="https://github.com/portifol/Studio" target="_blank" rel="noopener noreferrer">See source code</a></p>
         </section>
 
         <section id="connect-view" class="panel hidden" aria-labelledby="connect-title">
@@ -380,7 +390,7 @@
                 <div class="setup-step" id="repository-setup-step">
                     <span class="setup-step-number" aria-hidden="true">1</span>
                     <div><strong>Create your repository</strong><p>A repository is the folder where your website lives. Name it <code>portfolio</code> or <code>me</code>.</p>
-                        <details><summary>Show me how</summary><p>Open <a href="https://github.com/new" target="_blank" rel="noopener noreferrer">GitHub’s new repository page</a>. Give it a name. For a new portfolio, leave it empty (a README is okay), then choose Create repository. Your website will be public when published.</p></details>
+                        <details><summary>Show me how</summary><p>Open <a href="https://github.com/new" target="_blank" rel="noopener noreferrer">GitHub’s new repository page</a>. Give it a name. You can leave “Add README” Off — setup will add a small file so Pages can be enabled. Then choose Create repository. Your website will be public when published.</p></details>
                     </div>
                 </div>
                 <div class="setup-step">
@@ -408,6 +418,142 @@
                 <button id="back-home" class="secondary" type="button">Back</button>
             </div>
             <p id="connect-status" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section id="token-setup-view" class="panel hidden" aria-labelledby="token-setup-title">
+            <h1 id="token-setup-title">Connect with a GitHub token</h1>
+            <p class="lead">To save your portfolio, this page needs a short-lived personal access token (PAT) from GitHub.</p>
+            <div class="warning">
+                <strong>Warning about shared devices:</strong> Tokens and public or shared computers don’t mix well. Anyone who uses this browser after you could use your token to change files. Prefer your own private device, and delete the token in GitHub when you’re done.
+            </div>
+            <div class="setup-steps">
+                <div class="setup-step">
+                    <span class="setup-step-number">1</span>
+                    <div>
+                        <strong>What is a PAT?</strong>
+                        <p>A personal access token is like a temporary password that lets this page talk to GitHub on your behalf. It expires, so it’s safer than your real password.</p>
+                    </div>
+                </div>
+                <div class="setup-step">
+                    <span class="setup-step-number">2</span>
+                    <div>
+                        <strong>How to make one</strong>
+                        <p>Go to GitHub → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token.</p>
+                        <details>
+                            <summary>Step-by-step</summary>
+                            <ol>
+                                <li>Open <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener noreferrer">Fine-grained tokens</a>.</li>
+                                <li>Click “Generate new token”.</li>
+                                <li>Give it a name, set expiration to 1 day (or longer if you prefer).</li>
+                                <li>Under Repository access, choose “Only select repositories” or “All repositories” depending on what you want.</li>
+                                <li>Under Permissions → Repository permissions, set <strong>Contents</strong> to <strong>Read and write</strong>. Leave everything else off.</li>
+                                <li>Generate and copy the token (starts with github_pat_).</li>
+                            </ol>
+                        </details>
+                    </div>
+                </div>
+                <div class="setup-step">
+                    <span class="setup-step-number">3</span>
+                    <div>
+                        <strong>Scopes / permissions this program needs</strong>
+                        <p>Contents: Read and write. That’s it. Metadata is usually granted automatically. Do not give more permissions than needed.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label for="token-input">Paste your token</label>
+                <input id="token-input" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+                <span class="small">We’ll store it in this browser’s local storage so you don’t have to paste it every time.</span>
+            </div>
+            <div class="row">
+                <button id="create-token-choice" class="secondary" type="button">Create token (pre-filled) ↗</button>
+                <button id="check-token-button" type="button">Check token</button>
+            </div>
+            <p id="token-status" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section id="repo-select-view" class="panel hidden" aria-labelledby="repo-select-title">
+            <h1 id="repo-select-title">Choose a repository</h1>
+            <p class="lead" id="repo-select-intro">Select the repository you want to use for your portfolio, or create a new one.</p>
+            <div class="row" style="margin-bottom:16px">
+                <button id="forget-pat-button" class="secondary" type="button">Forget this token</button>
+                <button id="toggle-create-repo" class="secondary" type="button">Create a new repository</button>
+                <button id="refresh-repos-button" class="secondary" type="button">Refresh list</button>
+            </div>
+            <div id="create-repo-panel" class="form-card hidden" style="margin-bottom:20px">
+                <h3 style="margin-top:0">Create a new repository</h3>
+                <div class="field">
+                    <label for="new-repo-name">Repository name</label>
+                    <input id="new-repo-name" placeholder="me" autocomplete="off">
+                    <span class="small">Your site will be at the address shown below.</span>
+                </div>
+                <p id="domain-preview" class="small" style="font-weight:700;margin:8px 0">https://yourname.github.io/…</p>
+                <div class="field">
+                    <span class="field-label">Visibility</span>
+                    <label class="inline-check"><input type="radio" name="new-repo-visibility" value="public" checked> Public (recommended)</label>
+                    <label class="inline-check"><input type="radio" name="new-repo-visibility" value="private"> Private</label>
+                </div>
+                <div id="private-warning" class="warning hidden">
+                    <strong>Private repositories:</strong> GitHub Pages on private repositories is a GitHub Enterprise feature. If you do not have (or are not sure you have) a GitHub Enterprise subscription, selecting private will make the site build fail. Prefer public unless you know you have Enterprise.
+                </div>
+                <div class="warning" style="margin-top:12px">
+                    <strong>note:</strong> there might be a small delay after creating a new repository before PATS can read them if it doesnt show up imididently try again in a minute or so
+                </div>
+                <div class="row" style="margin-top:12px">
+                    <button id="draft-repo-button" type="button">Draft repository on GitHub ↗</button>
+                </div>
+            </div>
+            <div id="repo-list" class="card-list"></div>
+            <div id="repo-actions" class="hidden" style="margin-top:20px">
+                <p id="repo-info" class="small"></p>
+                <div class="row">
+                    <button id="setup-button" type="button">Run setup (new or overwrite)</button>
+                    <button id="update-button" class="secondary" type="button">Make changes to this portfolio</button>
+                    <button id="change-repo-button" class="secondary" type="button">Choose a different repository</button>
+                </div>
+            </div>
+            <p id="repo-status" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section id="pages-guide-view" class="panel hidden" aria-labelledby="pages-guide-title">
+            <h1 id="pages-guide-title">Turn on GitHub Pages</h1>
+            <p class="lead">Your repository is ready (a small starter file was added if it was empty), but the website isn’t published yet. Let’s turn on GitHub Pages so people can see your portfolio. This is super easy!</p>
+            <div class="setup-steps">
+                <div class="setup-step">
+                    <span class="setup-step-number">1</span>
+                    <div>
+                        <strong>Open the Pages settings</strong>
+                        <p>Click the big button below. It will open a new tab with the exact page you need.</p>
+                        <a id="pages-settings-link" class="button" target="_blank" rel="noopener noreferrer">Open Pages settings ↗</a>
+                    </div>
+                </div>
+                <div class="setup-step">
+                    <span class="setup-step-number">2</span>
+                    <div>
+                        <strong>Choose how to publish</strong>
+                        <p>On that page, look for “Build and deployment” or “Source”.</p>
+                        <ul>
+                            <li>Select <strong>Deploy from a branch</strong>.</li>
+                            <li>For the branch, pick the one that says <strong>main</strong> or <strong>master</strong> (usually the first one).</li>
+                            <li>For the folder, pick <strong>/ (root)</strong>.</li>
+                            <li>Then press the green <strong>Save</strong> button.</li>
+                        </ul>
+                        <p>That’s it! GitHub will start building your site. It can take a minute or two.</p>
+                    </div>
+                </div>
+                <div class="setup-step">
+                    <span class="setup-step-number">3</span>
+                    <div>
+                        <strong>Come back here</strong>
+                        <p>Once you saved, come back to this tab and press the button below. We’ll check if Pages is on and then continue.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px">
+                <button id="pages-continue-button" type="button">I’ve turned on Pages — continue</button>
+                <button id="pages-skip-button" class="secondary" type="button">Skip for now (you can do it later)</button>
+            </div>
+            <p id="pages-status" class="status" role="status" aria-live="polite"></p>
         </section>
 
         <section id="wizard-view" class="hidden">
@@ -444,6 +590,27 @@
         </section>
     </main>
 
+
+    <dialog id="token-choice-dialog" aria-labelledby="token-choice-title">
+        <h2 id="token-choice-title">Choose token lifetime</h2>
+        <p>Both options open GitHub’s token page with the correct permissions already filled in (Contents: Read and write). You can still inspect everything before you generate it.</p>
+        <div class="choice-grid" style="margin:16px 0">
+            <button class="choice" type="button" data-token-type="permanent">
+                <strong>Permanent token</strong>
+                <span>Keeps you logged in so it’s faster to use later. Best on your own private device.</span>
+            </button>
+            <button class="choice" type="button" data-token-type="temporary">
+                <strong>Temporary token (1 day)</strong>
+                <span>More secure for public or shared devices. It expires after a day, which can be annoying if you need it again.</span>
+            </button>
+        </div>
+        <div class="note">
+            <strong>Note:</strong> You can change the expiration date on the next screen if you want. We recommend sticking with these templates and not changing the other settings. Feel free to look over the token before you create it.
+        </div>
+        <div class="dialog-actions">
+            <button id="cancel-token-choice" class="secondary" type="button">Cancel</button>
+        </div>
+    </dialog>
     <dialog id="consent-dialog" aria-labelledby="consent-title">
         <h2 id="consent-title">Before we connect</h2>
         <p>A personal access token is a temporary key. It lets this page save your portfolio to the one repository you choose. This page forgets the key when refreshed.</p>
@@ -466,6 +633,10 @@
         </div>
         <div id="save-status" class="status" role="status" aria-live="polite"></div>
         <section id="publish-panel" class="publish-panel hidden" aria-labelledby="publish-title">
+            <div id="publish-waiting" class="hidden" style="text-align:center;margin-bottom:16px">
+                <img id="publish-gif" alt="Waiting" style="width:160px;height:120px;object-fit:cover;border-radius:12px;margin-bottom:8px" src="https://media.tenor.com/bK1Z1k9pQ9YAAAAC/cat-typing.gif">
+                <p id="publish-waiting-text" style="margin:0;font-weight:700;color:#6a293e"></p>
+            </div>
             <h3 id="publish-title">Publishing your portfolio</h3>
             <ol class="publish-steps">
                 <li id="publish-commit-step" class="publish-step" data-state="pending"><span class="publish-step-icon" aria-hidden="true"></span><span>Save your changes to GitHub</span></li>
@@ -490,6 +661,10 @@
             <button id="save-container" type="button">Save container</button>
         </div>
     </dialog>
+
+    <div id="emoji-popup" class="hidden" style="position:fixed;z-index:100;background:white;border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:0 8px 30px #45213722;max-width:280px;max-height:220px;overflow:auto">
+        <div id="emoji-popup-list" class="emoji-row"></div>
+    </div>
 
     <script>
         (() => {
@@ -600,6 +775,9 @@
             const $ = (selector) => document.querySelector(selector);
             const welcomeView = $("#welcome-view");
             const connectView = $("#connect-view");
+            const tokenSetupView = $("#token-setup-view");
+            const repoSelectView = $("#repo-select-view");
+            const pagesGuideView = $("#pages-guide-view");
             const wizardView = $("#wizard-view");
             const editorView = $("#editor-view");
             const wizardContent = $("#wizard-content");
@@ -865,7 +1043,7 @@
                     : shownImages.map((image) =>
                         `<img src="${escapeHtml(image.data)}" alt="${escapeHtml(image.alt || "Profile picture")}">`
                     ).join("");
-                const statsHtml = data.stats.map((stat) => {
+                const statsHtml = data.stats.filter((stat) => (stat.label || "").trim() || (stat.value || "").trim()).map((stat) => {
                     const label = textWithEmoji(stat.label);
                     const value = stat.type === "date" ? dateLabel(stat.value) : stat.value;
                     const content = `${label}: ${textWithEmoji(stat.prefix || "")}${textWithEmoji(value || "")}`;
@@ -1203,7 +1381,7 @@
                 const pictures = shownImages.map((image) =>
                     `<img src="${escapeHtml(image.data)}" alt="${escapeHtml(image.alt || "Profile picture")}"${data.profile.type === "default" ? "" : ` title="${escapeHtml(image.alt || "")}"`}>`
                 ).join("");
-                const stats = data.stats.map((stat) => {
+                const stats = data.stats.filter((stat) => (stat.label || "").trim() || (stat.value || "").trim()).map((stat) => {
                     const value = stat.type === "date" ? dateLabel(stat.value) : stat.value;
                     const date = stat.type === "date" && /^\d{4}-\d{2}-\d{2}$/.test(stat.value) ? ` data-date="${escapeHtml(stat.value)}"` : "";
                     return `<div class="portfolio-stat"${date}>${textWithEmoji(stat.label)}: ${textWithEmoji(stat.prefix || "")}${textWithEmoji(value || "")}</div>`;
@@ -1303,20 +1481,21 @@
                     const complete = index < categories.indexOf(step.category);
                     return `<button class="step-dot${current ? " active" : ""}${complete ? " complete" : ""}" type="button" data-step-index="${firstStep}" aria-current="${current ? "step" : "false"}">${index + 1}. ${escapeHtml(category)}</button>`;
                 }).join("");
-                const focus = step.id.startsWith("profile-") ? "profile" : step.id.startsWith("identity-") ? "identity" : step.id;
+                const focus = step.id === "identity-stats" ? "stats"
+                    : step.id.startsWith("profile-") ? "profile"
+                    : step.id.startsWith("identity-") ? "identity"
+                    : step.id;
                 if (focus === "accent") delete wizardPreviewFrame.dataset.focus;
                 else wizardPreviewFrame.dataset.focus = focus;
             }
 
             function field(label, key, value, type = "text", placeholder = "", withEmoji = false) {
                 const inputType = type === "date" ? "date" : type;
-                return `<div class="field"><label>${escapeHtml(label)}</label><input type="${inputType}" data-field="${key}" value="${escapeHtml(value || "")}" placeholder="${escapeHtml(placeholder)}">${withEmoji ? emojiPicker(key) : ""}</div>`;
+                return `<div class="field"><label>${escapeHtml(label)}</label><div class="row" style="gap:6px"><input type="${inputType}" data-field="${key}" value="${escapeHtml(value || "")}" placeholder="${escapeHtml(placeholder)}" style="flex:1">${withEmoji ? emojiPicker(key) : ""}</div></div>`;
             }
 
             function emojiPicker(target) {
-                return `<div class="emoji-picker"><span class="small">Insert a custom inline emoji:</span><div class="emoji-row">${emojiCatalog.map((emoji) =>
-                    `<button type="button" data-emoji-target="${escapeHtml(target)}" data-emoji="${escapeHtml(emoji.name)}" title="Insert :${escapeHtml(emoji.name)}:"><img src="${escapeHtml(emoji.path)}" alt=""> ${escapeHtml(emoji.label)}</button>`
-                ).join("") || `<span class="small">Custom emoji list is loading.</span>`}</div></div>`;
+                return `<button type="button" class="emoji-trigger secondary" data-emoji-target="${escapeHtml(target)}" title="Insert emoji" style="padding:6px 10px;font-size:1.1rem">😊</button>`;
             }
 
             function updateWizardNextButton() {
@@ -1387,10 +1566,10 @@
                 } else if (step.id === "identity-status") {
                     body = field("Your status (optional)", "status", config.status, "text", "A short line under your name", true);
                 } else if (step.id === "identity-stats") {
-                    body = `<div class="row" style="justify-content:space-between"><h3>Your stat bars</h3><button type="button" data-action="add-stat">+ Add stat</button></div>
-                        <p class="small">Pronouns, birthday, gender, or anything else you want to share. Leave anything blank to leave it off your page.</p>
-                        <div class="card-list">${config.stats.map((stat, index) => `<div class="form-card"><div class="form-card-head"><strong>Stat ${index + 1}</strong><button class="danger" type="button" data-action="remove-stat" data-index="${index}">Remove</button></div>
-                            <div class="field-row">${arrayInput("stats", index, "label", "Label", stat.label, "text", true)}<div class="field"><label>Value type</label><select data-array="stats" data-index="${index}" data-key="type"><option value="text"${stat.type === "text" ? " selected" : ""}>Text</option><option value="date"${stat.type === "date" ? " selected" : ""}>Date</option></select></div></div>
+                    body = `<div class="row" style="justify-content:space-between;align-items:center"><h3 style="margin:0">Your stat bars</h3><button type="button" data-action="add-stat">+ Add stat</button></div>
+                        <p class="small" style="margin:6px 0 12px">Pronouns, birthday, gender, or anything else you want to share. Leave anything blank to leave it off your page.</p>
+                        <div class="stats-grid">${config.stats.map((stat, index) => `<div class="stat-card"><div class="form-card-head"><strong>Stat ${index + 1}</strong><button class="danger" type="button" data-action="remove-stat" data-index="${index}" style="padding:4px 10px;font-size:.8rem">Remove</button></div>
+                            <div class="field-row">${arrayInput("stats", index, "label", "Label", stat.label, "text", true)}<div class="field"><label>Type</label><select data-array="stats" data-index="${index}" data-key="type"><option value="text"${stat.type === "text" ? " selected" : ""}>Text</option><option value="date"${stat.type === "date" ? " selected" : ""}>Date</option></select></div></div>
                             ${arrayInput("stats", index, "value", stat.type === "date" ? "Date" : "Value", stat.value, stat.type === "date" ? "date" : "text", stat.type !== "date")}
                             ${stat.type === "date" ? arrayInput("stats", index, "prefix", "Prefix (optional)", stat.prefix || "", "text", true) : ""}
                         </div>`).join("")}</div>`;
@@ -1422,10 +1601,11 @@
                 wizardContent.innerHTML = `<div class="step-heading"><h1>${escapeHtml(step.title)}</h1><p>${escapeHtml(step.description)}</p></div><div class="wizard-question">${body}</div><div class="wizard-actions"><button class="secondary" type="button" data-action="previous"${stepIndex === 0 ? " disabled" : ""}>Back</button><div class="right">${canSkip ? `<button class="secondary" type="button" data-action="skip">Skip</button>` : ""}<button type="button" data-action="next">${nextLabel}</button></div></div>`;
                 updateWizardNextButton();
                 renderPreview();
+                window.scrollTo(0, 0);
             }
 
             function arrayInput(array, index, key, label, value, type = "text", withEmoji = false) {
-                return `<div class="field"><label>${escapeHtml(label)}</label><input type="${type}" data-array="${array}" data-index="${index}" data-key="${key}" value="${escapeHtml(value ?? "")}">${withEmoji ? emojiPicker(`${array}.${index}.${key}`) : ""}</div>`;
+                return `<div class="field"><label>${escapeHtml(label)}</label><div class="row" style="gap:6px"><input type="${type}" data-array="${array}" data-index="${index}" data-key="${key}" value="${escapeHtml(value ?? "")}" style="flex:1">${withEmoji ? emojiPicker(`${array}.${index}.${key}`) : ""}</div></div>`;
             }
 
             function setPath(object, path, value) {
@@ -1688,18 +1868,183 @@
             function showView(name) {
                 welcomeView.classList.toggle("hidden", name !== "welcome");
                 connectView.classList.toggle("hidden", name !== "connect");
+                tokenSetupView.classList.toggle("hidden", name !== "token-setup");
+                repoSelectView.classList.toggle("hidden", name !== "repo-select");
+                pagesGuideView.classList.toggle("hidden", name !== "pages-guide");
                 wizardView.classList.toggle("hidden", name !== "wizard");
                 editorView.classList.toggle("hidden", name !== "editor");
                 if (name === "wizard") {
                     $("#wizard-editor-button").classList.toggle("hidden", !wizardFromEditor);
                     renderWizard();
-                    window.scrollTo(0, 0);
                 } else if (name === "editor") {
                     renderEditor();
-                    window.scrollTo(0, 0);
+                }
+                window.scrollTo(0, 0);
+            }
+
+
+            const TOKEN_STORAGE_KEY = "portifol_pat";
+
+            function saveToken(value) {
+                if (value) localStorage.setItem(TOKEN_STORAGE_KEY, value);
+                else localStorage.removeItem(TOKEN_STORAGE_KEY);
+                token = value || "";
+            }
+
+            function loadToken() {
+                return localStorage.getItem(TOKEN_STORAGE_KEY) || "";
+            }
+
+            let githubLogin = "";
+
+            async function validateToken(suppliedToken) {
+                token = suppliedToken;
+                try {
+                    const user = await githubRequest("/user");
+                    githubLogin = user.login || "";
+                    // For fine-grained tokens we mainly care that we can access repos and write contents.
+                    // A successful /user call plus later repo permission checks is the practical validation.
+                    return user;
+                } catch (error) {
+                    token = "";
+                    githubLogin = "";
+                    throw new Error("Token is invalid or does not have access. Check that it is a fine-grained token with Contents: Read and write. " + error.message);
                 }
             }
 
+            async function loadAccessibleRepositories() {
+                const repos = [];
+                let page = 1;
+                const bust = Date.now();
+                while (page < 10) { // safety limit
+                    const batch = await githubRequest(`/user/repos?per_page=100&page=${page}&affiliation=owner,collaborator&sort=updated&_=${bust}`);
+                    if (!Array.isArray(batch) || batch.length === 0) break;
+                    repos.push(...batch);
+                    if (batch.length < 100) break;
+                    page++;
+                }
+                // Filter to those we can push to
+                return repos.filter(r => r.permissions && (r.permissions.push || r.permissions.admin));
+            }
+
+            function renderRepoList(repos) {
+                const list = $("#repo-list");
+                list.innerHTML = "";
+                if (!repos.length) {
+                    list.innerHTML = `<div class="editor-empty">No repositories found that this token can write to. Make sure the token has Contents: Read and write on at least one repository.</div>`;
+                    return;
+                }
+                for (const repo of repos) {
+                    const card = document.createElement("div");
+                    card.className = "form-card";
+                    card.innerHTML = `
+                        <div class="form-card-head">
+                            <strong>${escapeHtml(repo.full_name)}</strong>
+                            <button type="button" data-repo="${escapeHtml(repo.full_name)}">Select</button>
+                        </div>
+                        <span class="small">${repo.private ? "Private" : "Public"} · ${repo.description || "No description"}</span>
+                    `;
+                    list.append(card);
+                }
+            }
+
+            async function onRepoSelected(fullName) {
+                const [owner, name] = fullName.split("/");
+                account = owner;
+                repository = await githubRequest(`/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`);
+                if (!repository.permissions?.push && !repository.permissions?.admin) {
+                    showStatus($("#repo-status"), "This token cannot write to the selected repository.", "error");
+                    return;
+                }
+                // Check if managed
+                let isManaged = false;
+                try {
+                    const file = await githubRequest(`/repos/${encodeURIComponent(owner)}/${encodeURIComponent(name)}/contents/index.html`);
+                    const html = decodeContent(file);
+                    isManaged = html.includes("<!-- portfolio-studio:managed:v1 -->");
+                    existingSha = file.sha;
+                    managedPortfolio = isManaged;
+                } catch (error) {
+                    if (error.status !== 404 && !String(error.message).includes("Not Found")) throw error;
+                    existingSha = null;
+                    managedPortfolio = false;
+                }
+                $("#repo-info").textContent = isManaged
+                    ? "This repository already has a portfolio made by portifol Studio. You can update it or run setup (which will overwrite it)."
+                    : "This repository does not contain a portfolio made by this editor. You can only run setup (it will create a new one).";
+                $("#update-button").disabled = !isManaged;
+                $("#update-button").classList.toggle("disabled", !isManaged);
+                if (!isManaged) $("#update-button").title = "Update is only available for portfolios created by this editor.";
+                else $("#update-button").title = "";
+                $("#repo-actions").classList.remove("hidden");
+                $("#repo-list").classList.add("hidden");
+                $("#repo-select-intro").textContent = `Selected: ${fullName}`;
+            }
+
+            async function checkPagesAndProceed(isSetup) {
+                try {
+                    await githubRequest(`/repos/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/pages`);
+                    // Pages is enabled
+                    proceedAfterPages(isSetup);
+                } catch (error) {
+                    if (error.status === 404 || String(error.message).includes("Not Found")) {
+                        // Not enabled — show guide
+                        $("#pages-settings-link").href = `https://github.com/${account}/${repository.name}/settings/pages`;
+                        showView("pages-guide");
+                        // Store the intent
+                        window._pendingSetup = isSetup;
+                    } else {
+                        // Other error — still proceed but warn
+                        window.alert("Could not check Pages status: " + error.message + ". Continuing anyway.");
+                        proceedAfterPages(isSetup);
+                    }
+                }
+            }
+
+            function proceedAfterPages(isSetup) {
+                if (isSetup) {
+                    mode = "new";
+                    config = structuredClone(DEFAULTS);
+                    if (!managedPortfolio) existingSha = null;
+                    wizardFromEditor = false;
+                    stepIndex = 0;
+                    showView("wizard");
+                } else {
+                    // Update — load the portfolio
+                    // We already have existingSha; need to load config
+                    (async () => {
+                        try {
+                            const file = await githubRequest(`/repos/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/contents/index.html`);
+                            config = parseManagedPortfolio(decodeContent(file));
+                            existingSha = file.sha;
+                            managedPortfolio = true;
+                            mode = "edit";
+                            showView("editor");
+                        } catch (err) {
+                            window.alert("Could not load the existing portfolio: " + err.message);
+                        }
+                    })();
+                }
+            }
+
+            async function initConnectionFlow() {
+                const stored = loadToken();
+                if (stored) {
+                    try {
+                        await validateToken(stored);
+                        const repos = await loadAccessibleRepositories();
+                        renderRepoList(repos);
+                        showView("repo-select");
+                        if (repos.length === 1) await onRepoSelected(repos[0].full_name);
+                    } catch (error) {
+                        localStorage.removeItem(TOKEN_STORAGE_KEY);
+                        showStatus($("#token-status"), error.message, "error");
+                        showView("token-setup");
+                    }
+                } else {
+                    showView("token-setup");
+                }
+            }
             function decodeContent(content) {
                 if (!content || content.encoding !== "base64") throw new Error("GitHub did not return a readable index.html file.");
                 return base64ToUtf8(content.content);
@@ -1811,6 +2156,27 @@
                 return body;
             }
 
+            async function ensurePagesInitFile() {
+                // Create a tiny pages.init so an empty repo can enable GitHub Pages.
+                // Safe to call multiple times; skips if the file already exists.
+                const path = `/repos/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/contents/pages.init`;
+                try {
+                    await githubRequest(path);
+                    return; // already present
+                } catch (error) {
+                    if (error.status !== 404 && !String(error.message).includes("Not Found")) throw error;
+                }
+                const content = btoa("Created by portifol Studio so GitHub Pages can be enabled.\nSafe to delete after your site is published.\n");
+                await githubRequest(path, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        message: "Add pages.init so GitHub Pages can be enabled",
+                        content
+                    })
+                });
+            }
+
             function usedEmojiNames(value, names = new Set()) {
                 if (typeof value === "string") {
                     for (const match of value.matchAll(/:([a-z0-9_+-]+):/gi)) {
@@ -1910,8 +2276,8 @@
                             existingSha = existingFile.sha;
                             managedPortfolio = true;
                         } else {
-                            if (contents.some((item) => item.type !== "file" || !/^readme(?:\.[^.]*)?$/i.test(item.name))) {
-                                throw new Error("For a new portfolio, this repository must be empty except for an optional README, or already have a root index.html. No changes were made.");
+                            if (contents.some((item) => item.type !== "file" || !/^(readme(?:\.[^.]*)?|pages\.init)$/i.test(item.name))) {
+                                throw new Error("For a new portfolio, this repository must be empty except for an optional README or pages.init, or already have a root index.html. No changes were made.");
                             }
                             existingSha = null;
                             managedPortfolio = false;
@@ -1950,8 +2316,8 @@
                         if (error.status !== 404 && !String(error.message).includes("Not Found")) throw error;
                         contents = [];
                     }
-                    if (!Array.isArray(contents) || contents.some((item) => item.type !== "file" || !/^readme(?:\.[^.]*)?$/i.test(item.name))) {
-                        throw new Error("The repository is no longer empty (except for an optional README). No changes were made.");
+                    if (!Array.isArray(contents) || contents.some((item) => item.type !== "file" || !/^(readme(?:\.[^.]*)?|pages\.init)$/i.test(item.name))) {
+                        throw new Error("The repository is no longer empty (except for an optional README or pages.init). No changes were made.");
                     }
                 }
                 return sha;
@@ -2054,9 +2420,11 @@
 
             async function checkWorkflowJobs(owner, repoName, runId, generation) {
                 const endpoint = `https://api.github.com/repos/${owner}/${repoName}/actions/runs/${runId}/jobs?filter=latest&per_page=100&_=${Date.now()}`;
+                const headers = { "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
+                if (token) headers.Authorization = `Bearer ${token}`;
                 const response = await fetch(endpoint, {
                     cache: "no-store",
-                    headers: { "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }
+                    headers
                 });
                 if (generation !== publishCheckGeneration) return null;
                 if (!response.ok) throw new Error(`GitHub returned HTTP ${response.status} while listing the workflow jobs.`);
@@ -2077,9 +2445,11 @@
                     let runId = currentPublishRunId;
                     if (!runId) {
                         const runsUrl = `https://api.github.com/repos/${owner}/${repoName}/actions/runs?head_sha=${encodeURIComponent(commitSha)}&per_page=20&_=${Date.now()}`;
+                        const headers = { "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
+                        if (token) headers.Authorization = `Bearer ${token}`;
                         const response = await fetch(runsUrl, {
                             cache: "no-store",
-                            headers: { "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }
+                            headers
                         });
                         if (generation !== publishCheckGeneration) return;
                         if (!response.ok) throw new Error(`GitHub returned HTTP ${response.status} while looking for the Pages workflow.`);
@@ -2098,16 +2468,16 @@
                     if (!runId) {
                         setPublishStep("#publish-build-step", "current");
                         $("#publish-title").textContent = "Waiting for GitHub to start the build";
-                        $("#publish-detail").textContent = "GitHub has your changes. Waiting for the Pages workflow for this commit to start.";
+                        $("#publish-detail").textContent = "Your changes are saved. GitHub is still getting ready (sometimes the workflow sits in a queue for a bit). We’ll keep watching.";
                         const list = $("#publish-build-progress");
                         list.replaceChildren();
                         list.hidden = false;
                         const item = document.createElement("li");
                         item.className = "publish-build-job";
-                        item.textContent = "Waiting for GitHub Pages to start this commit’s workflow…";
+                        item.textContent = "Still waiting for the Pages workflow to appear… GitHub can be slow when it’s busy.";
                         list.append(item);
                         if (attempt >= 60) {
-                            showPublishRetry("GitHub has not started the Pages workflow yet. Check that Pages is enabled, then choose Check again.", "Still waiting for the Pages build");
+                            showPublishRetry("GitHub still hasn’t started the Pages workflow (it can sit in a queue when the site is busy). Your changes are saved. You can check Actions or press Check again.", "Still waiting on GitHub");
                             return;
                         }
                         const delay = Math.min(5000 * (1 + Math.floor(attempt / 3)), 20000);
@@ -2149,11 +2519,12 @@
                         setPublishStep("#publish-build-step", "done");
                         setPublishStep("#publish-live-step", "done");
                         $("#publish-title").textContent = "Your portfolio is live!";
+                        const waiting = $("#publish-waiting");
+                        if (waiting) waiting.classList.add("hidden");
                         $("#publish-detail").textContent = "All GitHub Pages jobs and steps have finished successfully.";
                         $("#visit-portfolio-link").href = pagesSiteUrl();
                         $("#visit-portfolio-link").hidden = false;
                         $("#copy-portfolio-link").hidden = false;
-                        $("#pages-setup-instructions").hidden = true;
                         return;
                     }
                     $("#publish-detail").textContent = progress.total
@@ -2169,7 +2540,21 @@
                     );
                 } catch (error) {
                     if (generation !== publishCheckGeneration) return;
-                    showPublishRetry(`Could not check the public Pages workflow: ${error.message} You can open Actions on GitHub to check it instead.`, "Could not check the build");
+                    const msg = String(error.message || "");
+                    const isTemporary = msg.includes("403") || msg.includes("429") || msg.includes("rate") || msg.includes("Not Found");
+                    if (isTemporary && attempt < 40) {
+                        setPublishStep("#publish-build-step", "current");
+                        $("#publish-title").textContent = "GitHub is a bit slow right now";
+                        $("#publish-detail").textContent = "Your changes are saved. GitHub hasn’t shown the build status yet (this happens when it’s busy or the run is still queued). We’ll keep checking…";
+                        const waiting = $("#publish-waiting");
+                        if (waiting) waiting.classList.remove("hidden");
+                        publishCheckTimer = window.setTimeout(
+                            () => checkPagesDeployment(commitSha, attempt + 1, generation),
+                            8000
+                        );
+                        return;
+                    }
+                    showPublishRetry(`Could not check the Pages workflow: ${msg} You can open Actions on GitHub to check it instead. Your changes are still saved.`, "Could not check the build");
                 }
             }
 
@@ -2187,8 +2572,14 @@
 
                 const panel = $("#publish-panel");
                 panel.classList.remove("hidden");
-                $("#publish-title").textContent = "Publishing your portfolio";
-                $("#publish-detail").textContent = "Your changes are saved. Waiting for GitHub Pages to build the website…";
+                const waiting = $("#publish-waiting");
+                if (waiting) {
+                    waiting.classList.remove("hidden");
+                    const txt = $("#publish-waiting-text");
+                    if (txt) txt.textContent = "Now it’s GitHub’s turn. This can take a minute (or longer when GitHub is busy). You can leave this page open — progress shows below.";
+                }
+                $("#publish-title").textContent = "Now it’s GitHub’s turn";
+                $("#publish-detail").textContent = "Your changes are saved. Waiting for GitHub Pages to pick up the build…";
                 $("#publish-actions-link").href = `https://github.com/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/actions`;
                 $("#publish-actions-link").hidden = false;
                 $("#visit-portfolio-link").hidden = true;
@@ -2201,32 +2592,6 @@
                 $("#publish-build-progress").replaceChildren();
                 $("#publish-build-progress").hidden = true;
 
-                const nextStep = document.createElement("div");
-                nextStep.className = "pages-next-step";
-                nextStep.id = "pages-setup-instructions";
-                const heading = document.createElement("strong");
-                heading.textContent = "If you have not turned on your website yet";
-                const note = document.createElement("p");
-                note.textContent = "Open Pages settings, choose Deploy from a branch, select the default branch and /(root), then Save. Come back here and we’ll check the build.";
-                const instructions = document.createElement("ol");
-                for (const text of [
-                    "Choose “Deploy from a branch”.",
-                    `Choose “${repository.default_branch || "main"}” and “/(root)”.`,
-                    "Press Save, then return here. Your site link will appear when the build finishes."
-                ]) {
-                    const item = document.createElement("li");
-                    item.textContent = text;
-                    instructions.append(item);
-                }
-                const link = document.createElement("a");
-                link.className = "button secondary";
-                link.href = `https://github.com/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/settings/pages`;
-                link.target = "_blank";
-                link.rel = "noopener noreferrer";
-                link.textContent = "Open Pages settings";
-                nextStep.append(heading, note, instructions, link);
-                status.append(nextStep);
-
                 if (commitSha) {
                     const generation = ++publishCheckGeneration;
                     checkPagesDeployment(commitSha, 0, generation);
@@ -2235,11 +2600,16 @@
                 }
             }
 
+            function setSaveButtonsDisabled(disabled) {
+                $("#save-button").disabled = disabled;
+                $("#editor-save-button").disabled = disabled;
+                $("#confirm-save").disabled = disabled;
+            }
+
             async function savePortfolio() {
                 if (saveInProgress) return;
                 saveInProgress = true;
-                const confirm = $("#confirm-save");
-                confirm.disabled = true;
+                setSaveButtonsDisabled(true);
                 showStatus($("#save-status"), "Verifying the repository has not changed…");
                 try {
                     if (!/^#[0-9a-f]{6}$/i.test(config.accent)) throw new Error("Choose a valid six-digit hex accent colour before publishing.");
@@ -2291,10 +2661,210 @@
                     showStatus($("#save-status"), `Could not complete publishing: ${error.message}`, "error");
                 } finally {
                     saveInProgress = false;
-                    confirm.disabled = false;
+                    setSaveButtonsDisabled(false);
                 }
             }
 
+
+            // New token / repo flow
+            $("#get-started").addEventListener("click", () => {
+                initConnectionFlow().catch((error) => {
+                    console.error(error);
+                    showView("token-setup");
+                    showStatus($("#token-status"), "Could not start: " + error.message, "error");
+                });
+            });
+
+            $("#create-token-choice").addEventListener("click", () => {
+                $("#token-choice-dialog").showModal();
+            });
+            $("#cancel-token-choice").addEventListener("click", () => {
+                $("#token-choice-dialog").close();
+            });
+            $("#token-choice-dialog").addEventListener("click", (event) => {
+                const choice = event.target.closest("[data-token-type]");
+                if (!choice) return;
+                const type = choice.dataset.tokenType;
+                const base = "https://github.com/settings/personal-access-tokens/new";
+                const params = new URLSearchParams({
+                    name: "portifol Studio",
+                    description: type === "permanent"
+                        ? "Permanent token for portifol Studio (Contents read/write)"
+                        : "Temporary 1-day token for portifol Studio (Contents read/write)",
+                    contents: "write",
+                    metadata: "read"
+                });
+                if (type === "permanent") params.set("expires_in", "none");
+                else params.set("expires_in", "1");
+                const url = base + "?" + params.toString();
+                window.open(url, "_blank", "noopener,noreferrer");
+                $("#token-choice-dialog").close();
+            });
+
+            $("#check-token-button").addEventListener("click", async () => {
+                const input = $("#token-input");
+                const value = input.value.trim();
+                if (!value) {
+                    showStatus($("#token-status"), "Please paste a token first.", "error");
+                    return;
+                }
+                $("#check-token-button").disabled = true;
+                showStatus($("#token-status"), "Checking token…");
+                try {
+                    await validateToken(value);
+                    saveToken(value);
+                    const repos = await loadAccessibleRepositories();
+                    renderRepoList(repos);
+                    showView("repo-select");
+                    if (repos.length === 1) {
+                        await onRepoSelected(repos[0].full_name);
+                        showStatus($("#token-status"), "Token looks good. Only one repository available — selected it for you.", "ok");
+                    } else {
+                        showStatus($("#token-status"), "Token looks good. Choose a repository below.", "ok");
+                    }
+                } catch (error) {
+                    showStatus($("#token-status"), error.message, "error");
+                    saveToken("");
+                } finally {
+                    $("#check-token-button").disabled = false;
+                }
+            });
+
+            $("#repo-list").addEventListener("click", async (event) => {
+                const button = event.target.closest("[data-repo]");
+                if (!button) return;
+                try {
+                    await onRepoSelected(button.dataset.repo);
+                } catch (error) {
+                    showStatus($("#repo-status"), error.message, "error");
+                }
+            });
+
+            $("#setup-button").addEventListener("click", async () => {
+                if (!window.confirm("Setup will overwrite everything in the selected repository (index.html and any files this editor creates). This cannot be undone from this page. Continue?")) return;
+                try {
+                    showStatus($("#repo-status"), "Preparing repository…");
+                    await ensurePagesInitFile();
+                    showStatus($("#repo-status"), "");
+                } catch (error) {
+                    showStatus($("#repo-status"), "Could not prepare the repository: " + error.message, "error");
+                    return;
+                }
+                checkPagesAndProceed(true);
+            });
+
+            $("#update-button").addEventListener("click", () => {
+                if ($("#update-button").disabled) return;
+                checkPagesAndProceed(false);
+            });
+
+            $("#change-repo-button").addEventListener("click", () => {
+                $("#repo-actions").classList.add("hidden");
+                $("#repo-list").classList.remove("hidden");
+                $("#repo-select-intro").textContent = "Select the repository you want to use for your portfolio.";
+            });
+
+            $("#forget-pat-button").addEventListener("click", () => {
+                if (!window.confirm("Forget the saved token? You will need to paste a new one next time.")) return;
+                saveToken("");
+                githubLogin = "";
+                showView("token-setup");
+                showStatus($("#token-status"), "Token forgotten. Paste a new one below.", "ok");
+            });
+
+            $("#toggle-create-repo").addEventListener("click", () => {
+                const panel = $("#create-repo-panel");
+                panel.classList.toggle("hidden");
+                if (!panel.classList.contains("hidden")) updateDomainPreview();
+            });
+
+            $("#refresh-repos-button").addEventListener("click", async () => {
+                const btn = $("#refresh-repos-button");
+                btn.disabled = true;
+                showStatus($("#repo-status"), "Refreshing repositories…");
+                try {
+                    const repos = await loadAccessibleRepositories();
+                    renderRepoList(repos);
+                    $("#repo-actions").classList.add("hidden");
+                    $("#repo-list").classList.remove("hidden");
+                    showStatus($("#repo-status"), `Found ${repos.length} repository${repos.length === 1 ? "" : "ies"}.`, "ok");
+                } catch (error) {
+                    showStatus($("#repo-status"), "Could not refresh: " + error.message, "error");
+                } finally {
+                    btn.disabled = false;
+                }
+            });
+
+            function updateDomainPreview() {
+                const name = ($("#new-repo-name").value || "").trim() || "…";
+                const user = githubLogin || "yourname";
+                $("#domain-preview").textContent = `https://${user}.github.io/${encodeURIComponent(name)}`;
+            }
+
+            $("#new-repo-name").addEventListener("input", updateDomainPreview);
+
+            document.querySelectorAll('input[name="new-repo-visibility"]').forEach((radio) => {
+                radio.addEventListener("change", () => {
+                    const isPrivate = document.querySelector('input[name="new-repo-visibility"]:checked')?.value === "private";
+                    $("#private-warning").classList.toggle("hidden", !isPrivate);
+                });
+            });
+
+            $("#draft-repo-button").addEventListener("click", () => {
+                const name = ($("#new-repo-name").value || "").trim();
+                if (!name) {
+                    window.alert("Enter a repository name first.");
+                    return;
+                }
+                const visibility = document.querySelector('input[name="new-repo-visibility"]:checked')?.value || "public";
+                if (visibility === "private" && !window.confirm("Private repositories need GitHub Enterprise for Pages. If you do not have it, the site build will fail. Continue anyway?")) return;
+                const owner = githubLogin || "";
+                const url = new URL("https://github.com/new");
+                url.searchParams.set("name", name);
+                url.searchParams.set("visibility", visibility);
+                url.searchParams.set("description", "Portfolio created with portifol Studio");
+                if (owner) url.searchParams.set("owner", owner);
+                window.open(url.href, "_blank", "noopener,noreferrer");
+                showStatus($("#repo-status"), `Creating “${name}” on GitHub. Come back to this tab when you’re done — the list will refresh automatically, or press Refresh list.`, "ok");
+                // Auto-refresh when the user returns to this tab
+                const onVisible = async () => {
+                    if (document.visibilityState !== "visible") return;
+                    document.removeEventListener("visibilitychange", onVisible);
+                    try {
+                        showStatus($("#repo-status"), "Checking for the new repository…");
+                        const repos = await loadAccessibleRepositories();
+                        renderRepoList(repos);
+                        const found = repos.some(r => r.name.toLowerCase() === name.toLowerCase());
+                        showStatus($("#repo-status"), found
+                            ? `Found “${name}”. You can select it below.`
+                            : "Still waiting for GitHub to show the new repository. Press Refresh list in a few seconds.", found ? "ok" : "");
+                    } catch (error) {
+                        showStatus($("#repo-status"), "Could not refresh: " + error.message, "error");
+                    }
+                };
+                document.addEventListener("visibilitychange", onVisible);
+            });
+
+            $("#pages-continue-button").addEventListener("click", async () => {
+                $("#pages-continue-button").disabled = true;
+                showStatus($("#pages-status"), "Checking if Pages is enabled…");
+                try {
+                    await githubRequest(`/repos/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/pages`);
+                    proceedAfterPages(window._pendingSetup);
+                } catch (error) {
+                    if (error.status === 404 || String(error.message).includes("Not Found")) {
+                        showStatus($("#pages-status"), "Pages is still not enabled. Please finish the steps above and try again.", "error");
+                    } else {
+                        showStatus($("#pages-status"), "Could not verify Pages: " + error.message, "error");
+                    }
+                } finally {
+                    $("#pages-continue-button").disabled = false;
+                }
+            });
+
+            $("#pages-skip-button").addEventListener("click", () => {
+                proceedAfterPages(window._pendingSetup);
+            });
             document.querySelectorAll("[data-mode]").forEach((button) => {
                 button.addEventListener("click", () => {
                     mode = button.dataset.mode;
@@ -2426,6 +2996,7 @@
                 if (action) handleAction(action);
             });
             const openSaveDialog = () => {
+                if (saveInProgress) return;
                 clearTimeout(publishCheckTimer);
                 publishCheckTimer = null;
                 publishCheckGeneration++;
@@ -2476,6 +3047,38 @@
                 clearTimeout(publishCheckTimer);
             });
 
+
+            // Emoji popup
+            const emojiPopup = $("#emoji-popup");
+            const emojiPopupList = $("#emoji-popup-list");
+            document.addEventListener("click", (event) => {
+                const trigger = event.target.closest(".emoji-trigger");
+                if (trigger) {
+                    event.stopPropagation();
+                    const target = trigger.dataset.emojiTarget;
+                    emojiPopupList.innerHTML = emojiCatalog.map((emoji) =>
+                        `<button type="button" data-emoji-target="${escapeHtml(target)}" data-emoji="${escapeHtml(emoji.name)}" title="Insert :${escapeHtml(emoji.name)}:"><img src="${escapeHtml(emoji.path)}" alt=""> ${escapeHtml(emoji.label)}</button>`
+                    ).join("") || `<span class="small">No custom emoji loaded.</span>`;
+                    const rect = trigger.getBoundingClientRect();
+                    emojiPopup.style.left = Math.min(rect.left, window.innerWidth - 290) + "px";
+                    emojiPopup.style.top = (rect.bottom + 6) + "px";
+                    emojiPopup.classList.remove("hidden");
+                    return;
+                }
+                const emojiBtn = event.target.closest("#emoji-popup [data-emoji]");
+                if (emojiBtn) {
+                    insertEmoji(emojiBtn.dataset.emojiTarget, emojiBtn.dataset.emoji);
+                    emojiPopup.classList.add("hidden");
+                    return;
+                }
+                if (!event.target.closest("#emoji-popup")) {
+                    emojiPopup.classList.add("hidden");
+                }
+            });
+            // Start on the home screen. Get started will launch the token/repo flow.
+            connectView.classList.add("hidden");
+            showView("welcome");
+
             loadBadgeAssets().catch((error) => {
                 const warning = document.createElement("p");
                 warning.className = "warning";
@@ -2489,6 +3092,7 @@
                 welcomeView.append(warning);
             });
         })();
+
     </script>
 </body>
 </html>
