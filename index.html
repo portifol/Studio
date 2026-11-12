@@ -2516,8 +2516,21 @@
                             existingSha = existingFile.sha;
                             managedPortfolio = true;
                         } else {
-                            if (contents.some((item) => item.type !== "file" || !/^(readme(?:\.[^.]*)?|pages\.init)$/i.test(item.name))) {
-                                throw new Error("For a new portfolio, this repository must be empty except for an optional README or pages.init, or already have a root index.html. No changes were made.");
+                            // Publishing only writes index.html and media/, never
+                            // touches other files, so a repo with unrelated content is
+                            // allowed after an explicit warning.
+                            const isOwnEntry = (item) =>
+                                (item.type === "file" && /^(readme(?:\.[^.]*)?|pages\.init)$/i.test(item.name)) ||
+                                (item.type === "dir" && /^(media|\.github)$/i.test(item.name));
+                            if (contents.some((item) => !isOwnEntry(item))) {
+                                const confirmed = window.confirm(
+                                    "This repository already contains other files. Publishing will only add index.html and a media/ folder for your images; none of the existing files will be changed or removed. Continue?"
+                                );
+                                if (!confirmed) {
+                                    showStatus(status, "Setup cancelled. Nothing was changed.", "info");
+                                    $("#connect-github").disabled = false;
+                                    return;
+                                }
                             }
                             existingSha = null;
                             managedPortfolio = false;
@@ -2558,13 +2571,19 @@
                     }
                     // The repo may contain media/ (our uploaded images) and
                     // .github/ (created by GitHub Pages) from a previous publish;
-                    // those are ours, so they don't block publishing. Any other
-                    // root entry is unexpected content, so publishing is refused.
+                    // those are ours, so they don't block publishing. Publishing
+                    // never touches other files, so unrelated content only needs
+                    // an explicit warning before continuing.
                     const allowedRootEntry = (item) =>
                         (item.type === "file" && /^(readme(?:\.[^.]*)?|pages\.init)$/i.test(item.name)) ||
                         (item.type === "dir" && /^(media|\.github)$/i.test(item.name));
                     if (!Array.isArray(contents) || contents.some((item) => !allowedRootEntry(item))) {
-                        throw new Error("The repository is no longer empty (except for an optional README, pages.init, or media//.github from a previous portifol publish). No changes were made.");
+                        const confirmed = window.confirm(
+                            "This repository already contains other files. Publishing will only add index.html and a media/ folder for your images; none of the existing files will be changed or removed. Continue?"
+                        );
+                        if (!confirmed) {
+                            throw new Error("Publishing cancelled. Nothing was changed.");
+                        }
                     }
                 }
                 return sha;
