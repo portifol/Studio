@@ -314,12 +314,21 @@
         .h-min { left: 15%; width: 35%; background: #888; }
         .h-sec { left: 12%; width: 38%; height: 1px; background: var(--p-accent); }
         .hybrid-digital { position: absolute; z-index: 3; top: 40%; left: 50%; transform: translateX(-50%); padding: 2px 4px; border-radius: 4px; background: #fffdfddd; color: var(--p-ink); font: bold .75rem monospace; }
-        .portfolio-interest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+        .portfolio-interest-grid {display: grid;grid-template-columns: repeat(3, minmax(0, 1fr));gap: 10px;}
         .portfolio-interest {
-            min-height: 145px; display: flex; flex-direction: column; justify-content: end;
-            padding: 10px; color: white; border-radius: 10px; overflow: hidden;
+            aspect-ratio: 2 / 3;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            padding: 10px;
+            color: white;
+            border-radius: 10px;
+            overflow: hidden;
             background: linear-gradient(160deg, var(--p-soft), var(--p-accent));
-            background-position: center; background-size: cover; text-shadow: 0 1px 5px #000b;
+            background-position: center;
+            background-size: cover;
+            text-shadow: 0 1px 5px #000b;
         }
         @media (max-width: 560px) { .portfolio-card { --card-padding: 22px; } .portfolio-banner { height: auto; aspect-ratio: 2.3 / 1; } }
         .portfolio-interest strong { overflow-wrap: anywhere; }
@@ -729,7 +738,7 @@
                 .portfolio-socials img{width:22px;height:22px;object-fit:contain}.portfolio-section{margin:0 auto 18px;padding:28px;border-radius:22px;background:#fff;box-shadow:0 10px 25px #32101a0c}
                 .portfolio-section h2{font-size:1.25rem;border-bottom:2px solid var(--p-soft);padding-bottom:8px}.portfolio-time{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px;padding:8px 12px;border:1px solid var(--p-soft);border-radius:20px;background:#fffcfc}.portfolio-time-info{text-align:left}.portfolio-time-info h3{margin:0;color:var(--p-accent);font-size:1.2rem}.portfolio-time-zone{color:#9c7783;font-size:.8rem}
                 .hybrid-clock{position:relative;flex:0 0 70px;width:70px;height:70px;border:2px solid var(--p-soft);border-radius:50%;background:#fff;box-shadow:0 4px 10px color-mix(in srgb,var(--p-accent) 9%,transparent)}.hybrid-hand{position:absolute;top:50%;height:2px;border-radius:2px;transform-origin:100%}.h-hour{left:25%;width:25%;height:3px;background:var(--p-ink)}.h-min{left:15%;width:35%;background:#888}.h-sec{left:12%;width:38%;height:1px;background:var(--p-accent)}.hybrid-digital{position:absolute;z-index:3;top:40%;left:50%;transform:translateX(-50%);padding:2px 4px;border-radius:4px;background:#fffdfddd;color:var(--p-ink);font:bold .75rem monospace}
-                .portfolio-interest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:12px}.portfolio-interest{min-height:190px;display:flex;flex-direction:column;justify-content:end;padding:12px;color:#fff;border-radius:12px;background:linear-gradient(160deg,var(--p-soft),var(--p-accent));background-position:center;background-size:cover;text-shadow:0 1px 5px #000b}
+                .portfolio-interest-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.portfolio-interest{aspect-ratio:2/3;min-height:190px;display:flex;flex-direction:column;justify-content:end;padding:12px;color:#fff;border-radius:12px;background:linear-gradient(160deg,var(--p-soft),var(--p-accent));background-position:center;background-size:cover;text-shadow:0 1px 5px #000b}
                 .portfolio-interest small{margin-top:4px}.portfolio-extra{line-height:1.6;overflow-wrap:anywhere}.portfolio-extra img{display:block;max-width:100%;max-height:300px;object-fit:cover;border-radius:12px;margin:12px auto}
                 @media(max-width:520px){body{padding:12px}.portfolio-card{--card-padding:22px;padding:var(--card-padding)}.portfolio-section{padding:22px}.portfolio-banner{height:auto;aspect-ratio:2.3/1}.portfolio-stats{grid-template-columns:1fr}}
             `;
