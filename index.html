@@ -157,6 +157,23 @@
         .form-card-head strong { font-size: .92rem; }
         .form-card .field { margin: 10px 0; }
         .form-card .field:last-child { margin-bottom: 0; }
+        details.form-card { padding: 0; }
+        details.form-card > summary { cursor: pointer; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        details.form-card > summary::marker { color: var(--muted); }
+        details.form-card .summary-title { display: block; color: var(--muted); font-size: .8rem; margin-top: 2px; }
+        details.form-card > .details-body { padding: 0 14px 14px; }
+        /* Interest cards flow into multiple columns so long lists don't force
+           endless scrolling on the edit side. Cards expand to one column on
+           narrow viewports. */
+        .interests-card-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 10px; align-items: start; }
+        .interests-card-list .details-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; align-items: start; }
+        .interests-card-list .details-body > .field { margin: 8px 0; min-width: 0; }
+        .interests-card-list .details-body > .field:has(img) , .interests-card-list .details-body > .field-row { grid-column: 1 / -1; }
+        .interests-card-list .details-body > .field:has(img) img { display: block; }
+        .interests-card-list .details-body .field label + .small { margin-top: 2px; }
+        @media (max-width: 720px) {
+            .interests-card-list .details-body { grid-template-columns: 1fr; }
+        }
         .tiny-actions { display: flex; gap: 5px; }
         .tiny-actions button { padding: 6px 9px; font-size: .8rem; }
         .emoji-row { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -314,14 +331,14 @@
         .h-min { left: 15%; width: 35%; background: #888; }
         .h-sec { left: 12%; width: 38%; height: 1px; background: var(--p-accent); }
         .hybrid-digital { position: absolute; z-index: 3; top: 40%; left: 50%; transform: translateX(-50%); padding: 2px 4px; border-radius: 4px; background: #fffdfddd; color: var(--p-ink); font: bold .75rem monospace; }
-        .portfolio-interest-grid {display: grid;grid-template-columns: repeat(3, minmax(0, 1fr));gap: 10px;}
+        .portfolio-interest-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));gap: 8px;}
         .portfolio-interest {
             aspect-ratio: 2 / 3;
-            min-height: 150px;
+            min-height: 115px;
             display: flex;
             flex-direction: column;
             justify-content: end;
-            padding: 10px;
+            padding: 8px;
             color: white;
             border-radius: 10px;
             overflow: hidden;
@@ -738,7 +755,7 @@
                 .portfolio-socials img{width:22px;height:22px;object-fit:contain}.portfolio-section{margin:0 auto 18px;padding:28px;border-radius:22px;background:#fff;box-shadow:0 10px 25px #32101a0c}
                 .portfolio-section h2{font-size:1.25rem;border-bottom:2px solid var(--p-soft);padding-bottom:8px}.portfolio-time{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px;padding:8px 12px;border:1px solid var(--p-soft);border-radius:20px;background:#fffcfc}.portfolio-time-info{text-align:left}.portfolio-time-info h3{margin:0;color:var(--p-accent);font-size:1.2rem}.portfolio-time-zone{color:#9c7783;font-size:.8rem}
                 .hybrid-clock{position:relative;flex:0 0 70px;width:70px;height:70px;border:2px solid var(--p-soft);border-radius:50%;background:#fff;box-shadow:0 4px 10px color-mix(in srgb,var(--p-accent) 9%,transparent)}.hybrid-hand{position:absolute;top:50%;height:2px;border-radius:2px;transform-origin:100%}.h-hour{left:25%;width:25%;height:3px;background:var(--p-ink)}.h-min{left:15%;width:35%;background:#888}.h-sec{left:12%;width:38%;height:1px;background:var(--p-accent)}.hybrid-digital{position:absolute;z-index:3;top:40%;left:50%;transform:translateX(-50%);padding:2px 4px;border-radius:4px;background:#fffdfddd;color:var(--p-ink);font:bold .75rem monospace}
-                .portfolio-interest-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.portfolio-interest{aspect-ratio:2/3;min-height:190px;display:flex;flex-direction:column;justify-content:end;padding:12px;color:#fff;border-radius:12px;background:linear-gradient(160deg,var(--p-soft),var(--p-accent));background-position:center;background-size:cover;text-shadow:0 1px 5px #000b}
+                .portfolio-interest-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.portfolio-interest{aspect-ratio:2/3;min-height:130px;display:flex;flex-direction:column;justify-content:end;padding:10px;color:#fff;border-radius:12px;background:linear-gradient(160deg,var(--p-soft),var(--p-accent));background-position:center;background-size:cover;text-shadow:0 1px 5px #000b}
                 .portfolio-interest small{margin-top:4px}.portfolio-extra{line-height:1.6;overflow-wrap:anywhere}.portfolio-extra img{display:block;max-width:100%;max-height:300px;object-fit:cover;border-radius:12px;margin:12px auto}
                 @media(max-width:520px){body{padding:12px}.portfolio-card{--card-padding:22px;padding:var(--card-padding)}.portfolio-section{padding:22px}.portfolio-banner{height:auto;aspect-ratio:2.3/1}.portfolio-stats{grid-template-columns:1fr}}
             `;
@@ -756,7 +773,7 @@
                 .portfolio-socials{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px}.portfolio-socials a,.portfolio-button{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:24px;background:var(--p-accent);color:#fff;text-decoration:none;font-weight:bold}
                 .portfolio-socials img{width:22px;height:22px;object-fit:contain}.portfolio-section{margin:0 auto 18px;padding:28px;border-radius:22px;background:#fff;box-shadow:0 10px 25px #32101a0c}
                 .portfolio-section h2{font-size:1.25rem;border-bottom:2px solid var(--p-soft);padding-bottom:8px}.portfolio-time{padding:14px;border:1px solid var(--p-soft);border-radius:12px;background:#fffcfc}
-                .portfolio-interest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:12px}.portfolio-interest{min-height:190px;display:flex;flex-direction:column;justify-content:end;padding:12px;color:#fff;border-radius:12px;background:linear-gradient(160deg,var(--p-soft),var(--p-accent));background-position:center;background-size:cover;text-shadow:0 1px 5px #000b}
+                .portfolio-interest-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.portfolio-interest{min-height:130px;display:flex;flex-direction:column;justify-content:end;padding:10px;color:#fff;border-radius:12px;background:linear-gradient(160deg,var(--p-soft),var(--p-accent));background-position:center;background-size:cover;text-shadow:0 1px 5px #000b}
                 .portfolio-interest small{margin-top:4px}.portfolio-extra{line-height:1.6;overflow-wrap:anywhere}.portfolio-extra img{display:block;max-width:100%;max-height:300px;object-fit:cover;border-radius:12px;margin:12px auto}
                 @media(max-width:520px){body{padding:12px}.portfolio-card,.portfolio-section{padding:22px}.portfolio-stats{grid-template-columns:1fr}}
             `;
@@ -912,6 +929,123 @@
                 return new TextDecoder().decode(bytes);
             }
 
+            function isImageSrc(value) {
+                return typeof value === "string" && (value.startsWith("data:image/") || value.startsWith("media/"));
+            }
+
+            function base64ToBytes(value) {
+                const binary = atob(String(value).replace(/\s/g, ""));
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+                return bytes;
+            }
+
+            // Media is stored as separate repo files under media/ instead of
+            // embedding base64 data URIs inside index.html (which would hit the
+            // GitHub Contents API 1 MB per-file limit). Filenames are derived
+            // from the image content, so unchanged images keep the same file
+            // and are not re-uploaded on every save.
+            function mediaFileName(dataUri) {
+                const isPng = dataUri.startsWith("data:image/png;base64,");
+                return `media/img-${mediaHash(dataUri)}.${isPng ? "png" : "webp"}`;
+            }
+
+            function mediaHash(text) {
+                let hash = 5381;
+                for (let i = 0; i < text.length; i++) {
+                    hash = ((hash << 5) + hash + text.charCodeAt(i)) | 0;
+                }
+                return Math.abs(hash).toString(36) + text.length.toString(36);
+            }
+
+            function eachMediaReference(config, visit) {
+                if (typeof config.icon === "string" && config.icon.startsWith("data:image/")) visit(config, "icon");
+                (config.profile.images || []).forEach((image) => visit(image, "data"));
+                if (config.profile.banner) visit(config.profile.banner, "data");
+                (config.socials || []).forEach((social) => visit(social, "iconData"));
+                (config.interests.items || []).forEach((item) => visit(item, "image"));
+                (config.extras || []).forEach((extra) => visit(extra, "image"));
+            }
+
+            function withMediaPaths(config) {
+                const cloned = structuredClone(config);
+                eachMediaReference(cloned, (obj, prop) => {
+                    obj[prop] = mediaFileName(obj[prop]);
+                });
+                return cloned;
+            }
+
+            function collectMediaFiles(config) {
+                const files = new Map();
+                eachMediaReference(config, (obj, prop) => {
+                    files.set(mediaFileName(obj[prop]), obj[prop]);
+                });
+                return files;
+            }
+
+            async function putRepoFile(repoPath, dataUri, message) {
+                const base64 = dataUri.split(",")[1];
+                const contentsPath = `/repos/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/contents/${repoPath.split("/").map(encodeURIComponent).join("/")}`;
+                let sha = null;
+                try {
+                    const existing = await githubRequest(contentsPath);
+                    if (existing && existing.type === "file" && existing.encoding === "base64" && String(existing.content || "").replace(/\n/g, "") === base64) {
+                        return; // unchanged image, already up to date
+                    }
+                    sha = existing.sha;
+                } catch (error) {
+                    if (error.status !== 404 && !String(error.message).includes("Not Found")) throw error;
+                }
+                await githubRequest(contentsPath, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message, content: base64, ...(sha ? { sha } : {}) })
+                });
+            }
+
+            async function pruneMediaFiles(keepNames, message) {
+                const contentsBase = `/repos/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/contents`;
+                let listing;
+                try {
+                    listing = await githubRequest(`${contentsBase}/media`);
+                } catch (error) {
+                    if (error.status === 404 || String(error.message).includes("Not Found")) return;
+                    throw error;
+                }
+                if (!Array.isArray(listing)) return;
+                for (const entry of listing) {
+                    if (entry.type !== "file" || keepNames.has(`media/${entry.name}`)) continue;
+                    try {
+                        await githubRequest(`${contentsBase}/media/${encodeURIComponent(entry.name)}`, {
+                            method: "DELETE",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ message, sha: entry.sha })
+                        });
+                    } catch (error) {
+                        if (error.status !== 404 && !String(error.message).includes("Not Found")) {
+                            console.warn("Could not remove unused media file", entry.name, error);
+                        }
+                    }
+                }
+            }
+
+            async function hydrateMedia(config) {
+                const targets = [];
+                eachMediaReference(config, (obj, prop) => {
+                    if (typeof obj[prop] === "string" && obj[prop].startsWith("media/")) targets.push({ obj, prop, path: obj[prop] });
+                });
+                for (const target of targets) {
+                    const contentsPath = `/repos/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/contents/${target.path.split("/").map(encodeURIComponent).join("/")}`;
+                    try {
+                        const file = await githubRequest(contentsPath);
+                        if (file.encoding !== "base64") continue;
+                        target.obj[target.prop] = dataUriFromBytes(base64ToBytes(file.content), target.path.endsWith(".png") ? "image/png" : "image/webp");
+                    } catch (error) {
+                        console.warn("Could not load portfolio media", target.path, error);
+                    }
+                }
+            }
+
             async function fileToDataUri(file) {
                 if (!file || !file.type.startsWith("image/")) throw new Error("Choose an image file.");
                 if (file.size > 4 * 1024 * 1024) throw new Error("Each image must be smaller than 4 MB.");
@@ -1043,7 +1177,7 @@
             function portfolioMarkup(data) {
                 const accent = /^#[0-9a-f]{6}$/i.test(data.accent) ? data.accent : DEFAULTS.accent;
                 const soft = `${accent}30`;
-                const images = (data.profile.images || []).filter((image) => typeof image.data === "string" && image.data.startsWith("data:image/"));
+                const images = (data.profile.images || []).filter((image) => isImageSrc(image.data));
                 const shownImages = data.profile.type === "default" ? images.slice(0, 1) : images;
                 const pictureHtml = data.profile.type === "carousel" && shownImages.length > 1
                     ? Array.from({ length: 4 }, (_, index) => shownImages[index % shownImages.length]).map((image, index) =>
@@ -1067,7 +1201,7 @@
                     const href = cleanLink(social.url);
                     if (!href) return "";
                     const iconUrl = cleanLink(social.iconUrl);
-                    const icon = social.iconData && social.iconData.startsWith("data:image/")
+                    const icon = isImageSrc(social.iconData)
                         ? `<img src="${escapeHtml(social.iconData)}" alt="">`
                         : iconUrl
                         ? `<img src="${escapeHtml(iconUrl)}" alt="">`
@@ -1087,7 +1221,7 @@
                 for (const category of categories) if (!itemsByCategory.has(category)) itemsByCategory.set(category, []);
                 const interestHtml = (data.interests.enabled || data.interests.items.length > 0) ? [...itemsByCategory.entries()].map(([category, items]) =>
                     `<section class="portfolio-section" data-preview-part="interests"><h2>${textWithEmoji(category)}</h2><div class="portfolio-interest-grid">${items.map((item) =>
-                        `<article class="portfolio-interest"${item.image && item.image.startsWith("data:image/") ? ` style="background-image:linear-gradient(0deg,#0009,transparent),url('${escapeHtml(item.image)}');background-position:${clampNumber(item.positionX, 0, 100, 50)}% ${clampNumber(item.positionY, 0, 100, 50)}%"` : ""}><strong>${textWithEmoji(item.name || "Untitled interest")}</strong>${item.note ? `<small>${textWithEmoji(item.note)}</small>` : ""}</article>`
+                        `<article class="portfolio-interest"${isImageSrc(item.image) ? ` style="background-image:linear-gradient(0deg,#0009,transparent),url('${escapeHtml(item.image)}');background-position:${clampNumber(item.positionX, 0, 100, 50)}% ${clampNumber(item.positionY, 0, 100, 50)}%"` : ""}><strong>${textWithEmoji(item.name || "Untitled interest")}</strong>${item.note ? `<small>${textWithEmoji(item.note)}</small>` : ""}</article>`
                     ).join("")}</div></section>`
                 ).join("") : "";
                 const extras = data.extras.map((item) => {
@@ -1096,7 +1230,7 @@
                         return `<section class="portfolio-section portfolio-extra" data-preview-part="extras">${item.text ? `<h2>${textWithEmoji(item.text)}</h2>` : ""}${href ? `<a class="portfolio-button" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${textWithEmoji(item.label || "Open link")} ↗</a>` : ""}</section>`;
                     }
                     if (item.type === "image") {
-                        const image = item.image && item.image.startsWith("data:image/") ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.text || "Portfolio image")}" style="border-radius:${clampNumber(item.corners, 0, 40, 10)}px">` : "";
+                        const image = isImageSrc(item.image) ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.text || "Portfolio image")}" style="border-radius:${clampNumber(item.corners, 0, 40, 10)}px">` : "";
                         return `<section class="portfolio-section portfolio-extra" data-preview-part="extras">${item.text ? `<h2>${textWithEmoji(item.text)}</h2>` : ""}${image}</section>`;
                     }
                     const align = ["left", "center", "right"].includes(item.alignment) ? item.alignment : "left";
@@ -1108,7 +1242,7 @@
                 const bio = data.bio ? `<div class="portfolio-bio">${textWithEmoji(data.bio)}</div>` : "";
                 const profileClass = data.profile.type === "carousel" && images.length > 1 ? "carousel" : "";
                 const alignment = ["left", "center", "right"].includes(data.profile.alignment) ? data.profile.alignment : "center";
-                const banner = data.profile.banner?.data?.startsWith("data:image/")
+                const banner = isImageSrc(data.profile.banner?.data)
                     ? `<div class="portfolio-banner" data-preview-part="profile" style="--banner-position:${clampNumber(data.profile.banner.positionY, 0, 100, 45)}%"><img src="${escapeHtml(data.profile.banner.data)}" alt="${escapeHtml(data.profile.banner.alt || "Profile banner")}"></div>`
                     : "";
                 return `<div class="portfolio-page" style="--p-accent:${accent};--p-soft:${soft}"><main class="portfolio-card">${banner}<div class="portfolio-photos ${profileClass} align-${alignment}" data-preview-part="profile">${pictureHtml}</div><h1 data-preview-part="identity">${textWithEmoji(data.name || "Your name")}</h1>${status ? `<p class="portfolio-status" data-preview-part="identity">${textWithEmoji(data.status)}</p>` : ""}${statsHtml ? `<div class="portfolio-stats" data-preview-part="stats">${statsHtml}</div>` : ""}${badges ? `<div class="portfolio-badges" data-preview-part="badges" aria-label="Badges">${badges}</div>` : ""}${bio ? `<div class="portfolio-bio" data-preview-part="bio">${textWithEmoji(data.bio)}</div>` : ""}${socials ? `<nav class="portfolio-socials" data-preview-part="socials" aria-label="Social profiles">${socials}</nav>` : ""}</main>${timezone}${interestHtml}${extras}</div>`;
@@ -1118,7 +1252,7 @@
                 if (!root) return;
                 const photos = root.querySelector(".portfolio-photos.carousel");
                 if (!photos || photos.dataset.bound === "true") return;
-                const images = config.profile.images.filter((image) => image.data?.startsWith("data:image/"));
+                const images = config.profile.images.filter((image) => isImageSrc(image.data));
                 const slots = [...photos.querySelectorAll("img")];
                 if (images.length < 2 || slots.length < 4) return;
                 let current = 0;
@@ -1265,7 +1399,7 @@
                 const data = JSON.parse(document.getElementById("portfolio-studio-data").textContent);
                 const photos = root.querySelector(".portfolio-photos.carousel");
                 if (photos && data.profile.images.length > 1) {
-                    const images = data.profile.images.filter((image) => image.data?.startsWith("data:image/"));
+                    const images = data.profile.images.filter((image) => typeof image.data === "string" && (image.data.startsWith("data:image/") || image.data.startsWith("media/")));
                     let slots = [...photos.querySelectorAll("img")];
                     let current = 0;
                     let animating = false;
@@ -1385,7 +1519,7 @@
             function legacyPortfolioMarkup(data) {
                 const accent = /^#[0-9a-f]{6}$/i.test(data.accent) ? data.accent : DEFAULTS.accent;
                 const soft = `${accent}30`;
-                const images = (data.profile.images || []).filter((image) => typeof image.data === "string" && image.data.startsWith("data:image/"));
+                const images = (data.profile.images || []).filter((image) => isImageSrc(image.data));
                 const shownImages = data.profile.type === "default" ? images.slice(0, 1) : images;
                 const pictures = shownImages.map((image) =>
                     `<img src="${escapeHtml(image.data)}" alt="${escapeHtml(image.alt || "Profile picture")}"${data.profile.type === "default" ? "" : ` title="${escapeHtml(image.alt || "")}"`}>`
@@ -1403,7 +1537,7 @@
                     const href = cleanLink(social.url);
                     if (!href) return "";
                     const iconUrl = cleanLink(social.iconUrl);
-                    const icon = social.iconData && social.iconData.startsWith("data:image/")
+                    const icon = isImageSrc(social.iconData)
                         ? `<img src="${escapeHtml(social.iconData)}" alt="">`
                         : iconUrl ? `<img src="${escapeHtml(iconUrl)}" alt="">`
                         : `<span aria-hidden="true">${escapeHtml((social.platform || "↗").slice(0, 1).toUpperCase())}</span>`;
@@ -1422,7 +1556,7 @@
                 for (const category of categories) if (!itemsByCategory.has(category)) itemsByCategory.set(category, []);
                 const interests = (data.interests.enabled || data.interests.items.length > 0) ? [...itemsByCategory.entries()].map(([category, items]) =>
                     `<section class="portfolio-section"><h2>${textWithEmoji(category)}</h2><div class="portfolio-interest-grid">${items.map((item) =>
-                        `<article class="portfolio-interest"${item.image && item.image.startsWith("data:image/") ? ` style="background-image:linear-gradient(0deg,#0009,transparent),url('${escapeHtml(item.image)}');background-position:${clampNumber(item.positionX, 0, 100, 50)}% ${clampNumber(item.positionY, 0, 100, 50)}%"` : ""}><strong>${textWithEmoji(item.name || "Untitled interest")}</strong>${item.note ? `<small>${textWithEmoji(item.note)}</small>` : ""}</article>`
+                        `<article class="portfolio-interest"${isImageSrc(item.image) ? ` style="background-image:linear-gradient(0deg,#0009,transparent),url('${escapeHtml(item.image)}');background-position:${clampNumber(item.positionX, 0, 100, 50)}% ${clampNumber(item.positionY, 0, 100, 50)}%"` : ""}><strong>${textWithEmoji(item.name || "Untitled interest")}</strong>${item.note ? `<small>${textWithEmoji(item.note)}</small>` : ""}</article>`
                     ).join("")}</div></section>`
                 ).join("") : "";
                 const extras = data.extras.map((item) => {
@@ -1431,7 +1565,7 @@
                         return `<section class="portfolio-section portfolio-extra">${item.text ? `<h2>${textWithEmoji(item.text)}</h2>` : ""}${href ? `<a class="portfolio-button" href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${textWithEmoji(item.label || "Open link")} ↗</a>` : ""}</section>`;
                     }
                     if (item.type === "image") {
-                        const image = item.image && item.image.startsWith("data:image/") ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.text || "Portfolio image")}" style="border-radius:${clampNumber(item.corners, 0, 40, 10)}px">` : "";
+                        const image = isImageSrc(item.image) ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.text || "Portfolio image")}" style="border-radius:${clampNumber(item.corners, 0, 40, 10)}px">` : "";
                         return `<section class="portfolio-section portfolio-extra">${item.text ? `<h2>${textWithEmoji(item.text)}</h2>` : ""}${image}</section>`;
                     }
                     const alignment = ["left", "center", "right"].includes(item.alignment) ? item.alignment : "left";
@@ -1453,7 +1587,7 @@
 
             function generatedPortfolio(data) {
                 const json = JSON.stringify(data).replace(/</g, "\\u003c").replace(/-->/g, "--\\u003e");
-                return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<meta name="theme-color" content="${escapeHtml(data.accent)}">\n${typeof data.icon === "string" && data.icon.startsWith("data:image/png;base64,") ? `<link rel="icon" type="image/png" href="${escapeHtml(data.icon)}">\n` : ""}<title>${escapeHtml(data.name || "Personal portfolio")}</title>\n<meta name="portfolio-studio-format" content="1">\n<style>${PORTFOLIO_CSS}</style>\n</head>\n<body>\n<!-- portfolio-studio:managed:v1 -->\n${portfolioMarkup(data)}\n                                \x3cscript id="portfolio-studio-data" type="application/json">${json}<\/script>\n\x3cscript>\n                                                (()=>{const root=document.querySelector(".portfolio-page");if(!root)return;for(const node of root.querySelectorAll("[data-date]")){const date=new Date(node.dataset.date+"T00:00:00");const today=new Date();const days=Math.abs(Math.floor((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())-Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()))/86400000));node.dataset.hint=days===0?"Today":days>=365?Math.floor(days/365.2425)+" years":days>=30?Math.floor(days/30.4375)+" months":days+" days";}const dataNode=document.getElementById("portfolio-studio-data");const data=dataNode?JSON.parse(dataNode.textContent):null;const photos=root.querySelector(".portfolio-photos.carousel");if(photos&&data&&data.profile.images.length>1){const images=data.profile.images.filter(image=>image.data&&image.data.startsWith("data:image/"));const slots=[...photos.querySelectorAll("img")];let current=0,busy=false;const assign=(node,index)=>{const image=images[(index+images.length)%images.length];node.src=image.data;node.alt=image.alt||"Profile picture";};assign(slots[0],images.length-1);assign(slots[1],0);assign(slots[2],1);assign(slots[3],2);const rotate=direction=>{if(busy)return;busy=true;const [left,center,right,incoming]=slots;assign(incoming,current+direction*2);photos.classList.add("is-animating");incoming.style.left=direction>0?"100%":"-33.333%";const shift=direction>0?"-100%":"100%";const animations=[[left,[{transform:"translateX(0) scale(.75)",opacity:.5},{transform:"translateX("+shift+") scale(.75)",opacity:0}]],[center,[{transform:"translateX(0) scale(1)",opacity:1},{transform:"translateX("+shift+") scale(.75)",opacity:.5}]],[right,[{transform:"translateX(0) scale(.75)",opacity:.5},{transform:"translateX("+shift+") scale(1)",opacity:1}]],[incoming,[{transform:"translateX(0) scale(.75)",opacity:.5},{transform:"translateX("+shift+") scale(.75)",opacity:.5}]]];Promise.all(animations.map(([node,keyframes])=>node.animate(keyframes,{duration:380,easing:"ease-in-out",fill:"forwards"}).finished)).then(()=>{current=(current+direction+images.length)%images.length;const next=direction>0?[center,right,incoming,left]:[incoming,left,center,right];slots.splice(0,4,...next);slots.forEach((node,index)=>{node.className="pfp-"+["left","center","right","incoming"][index];node.style.left="";node.style.transform="";node.style.opacity="";});assign(slots[3],current+2);photos.classList.remove("is-animating");busy=false;}).catch(()=>{photos.classList.remove("is-animating");busy=false;});};let startX=0;photos.addEventListener("wheel",event=>{event.preventDefault();rotate(event.deltaY>=0?1:-1);},{passive:false});photos.addEventListener("pointerdown",event=>{startX=event.clientX;photos.setPointerCapture(event.pointerId);});photos.addEventListener("pointerup",event=>{const distance=event.clientX-startX;if(Math.abs(distance)>24)rotate(distance<0?1:-1);});photos.addEventListener("keydown",event=>{if(event.key==="ArrowRight")rotate(1);if(event.key==="ArrowLeft")rotate(-1);});photos.tabIndex=0;}for(const clock of root.querySelectorAll("[data-clock]")){const zone=clock.dataset.clock;const digital=clock.querySelector(".hybrid-digital");const display=root.querySelector("[data-timezone]");const update=()=>{try{const parts=new Intl.DateTimeFormat("en-GB",{timeZone:zone,hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(new Date());const values=Object.fromEntries(parts.map(part=>[part.type,part.value]));const hour=Number(values.hour),minute=Number(values.minute),second=Number(values.second);if(display)display.textContent=hour+":"+values.minute+":"+values.second;if(digital)digital.textContent=hour+":"+values.minute;clock.querySelector(".h-hour").style.transform="rotate("+(hour%12*30+minute*.5-90)+"deg)";clock.querySelector(".h-min").style.transform="rotate("+(minute*6-90)+"deg)";clock.querySelector(".h-sec").style.transform="rotate("+(second*6-90)+"deg)";}catch{if(display)display.textContent="Invalid timezone";}};update();setInterval(update,1000);}})();\n                <\/script>\n\x3c/body>\n\x3c/html>\n`;
+                return `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n<meta name="theme-color" content="${escapeHtml(data.accent)}">\n${typeof data.icon === "string" && data.icon.startsWith("data:image/png;base64,") ? `<link rel="icon" type="image/png" href="${escapeHtml(data.icon)}">\n` : typeof data.icon === "string" && data.icon.startsWith("media/") ? `<link rel="icon" href="${escapeHtml(data.icon)}">\n` : ""}<title>${escapeHtml(data.name || "Personal portfolio")}</title>\n<meta name="portfolio-studio-format" content="1">\n<style>${PORTFOLIO_CSS}</style>\n</head>\n<body>\n<!-- portfolio-studio:managed:v1 -->\n${portfolioMarkup(data)}\n                                \x3cscript id="portfolio-studio-data" type="application/json">${json}<\/script>\n\x3cscript>\n                                                (()=>{const root=document.querySelector(".portfolio-page");if(!root)return;for(const node of root.querySelectorAll("[data-date]")){const date=new Date(node.dataset.date+"T00:00:00");const today=new Date();const days=Math.abs(Math.floor((Date.UTC(today.getFullYear(),today.getMonth(),today.getDate())-Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()))/86400000));node.dataset.hint=days===0?"Today":days>=365?Math.floor(days/365.2425)+" years":days>=30?Math.floor(days/30.4375)+" months":days+" days";}const dataNode=document.getElementById("portfolio-studio-data");const data=dataNode?JSON.parse(dataNode.textContent):null;const photos=root.querySelector(".portfolio-photos.carousel");if(photos&&data&&data.profile.images.length>1){const images=data.profile.images.filter(image=>isImageSrc(image.data));const slots=[...photos.querySelectorAll("img")];let current=0,busy=false;const assign=(node,index)=>{const image=images[(index+images.length)%images.length];node.src=image.data;node.alt=image.alt||"Profile picture";};assign(slots[0],images.length-1);assign(slots[1],0);assign(slots[2],1);assign(slots[3],2);const rotate=direction=>{if(busy)return;busy=true;const [left,center,right,incoming]=slots;assign(incoming,current+direction*2);photos.classList.add("is-animating");incoming.style.left=direction>0?"100%":"-33.333%";const shift=direction>0?"-100%":"100%";const animations=[[left,[{transform:"translateX(0) scale(.75)",opacity:.5},{transform:"translateX("+shift+") scale(.75)",opacity:0}]],[center,[{transform:"translateX(0) scale(1)",opacity:1},{transform:"translateX("+shift+") scale(.75)",opacity:.5}]],[right,[{transform:"translateX(0) scale(.75)",opacity:.5},{transform:"translateX("+shift+") scale(1)",opacity:1}]],[incoming,[{transform:"translateX(0) scale(.75)",opacity:.5},{transform:"translateX("+shift+") scale(.75)",opacity:.5}]]];Promise.all(animations.map(([node,keyframes])=>node.animate(keyframes,{duration:380,easing:"ease-in-out",fill:"forwards"}).finished)).then(()=>{current=(current+direction+images.length)%images.length;const next=direction>0?[center,right,incoming,left]:[incoming,left,center,right];slots.splice(0,4,...next);slots.forEach((node,index)=>{node.className="pfp-"+["left","center","right","incoming"][index];node.style.left="";node.style.transform="";node.style.opacity="";});assign(slots[3],current+2);photos.classList.remove("is-animating");busy=false;}).catch(()=>{photos.classList.remove("is-animating");busy=false;});};let startX=0;photos.addEventListener("wheel",event=>{event.preventDefault();rotate(event.deltaY>=0?1:-1);},{passive:false});photos.addEventListener("pointerdown",event=>{startX=event.clientX;photos.setPointerCapture(event.pointerId);});photos.addEventListener("pointerup",event=>{const distance=event.clientX-startX;if(Math.abs(distance)>24)rotate(distance<0?1:-1);});photos.addEventListener("keydown",event=>{if(event.key==="ArrowRight")rotate(1);if(event.key==="ArrowLeft")rotate(-1);});photos.tabIndex=0;}for(const clock of root.querySelectorAll("[data-clock]")){const zone=clock.dataset.clock;const digital=clock.querySelector(".hybrid-digital");const display=root.querySelector("[data-timezone]");const update=()=>{try{const parts=new Intl.DateTimeFormat("en-GB",{timeZone:zone,hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(new Date());const values=Object.fromEntries(parts.map(part=>[part.type,part.value]));const hour=Number(values.hour),minute=Number(values.minute),second=Number(values.second);if(display)display.textContent=hour+":"+values.minute+":"+values.second;if(digital)digital.textContent=hour+":"+values.minute;clock.querySelector(".h-hour").style.transform="rotate("+(hour%12*30+minute*.5-90)+"deg)";clock.querySelector(".h-min").style.transform="rotate("+(minute*6-90)+"deg)";clock.querySelector(".h-sec").style.transform="rotate("+(second*6-90)+"deg)";}catch{if(display)display.textContent="Invalid timezone";}};update();setInterval(update,1000);}})();\n                <\/script>\n\x3c/body>\n\x3c/html>\n`;
             }
 
             function updateStudioFavicon() {
@@ -1597,7 +1731,7 @@
                     body = `<label class="inline-check"><input type="checkbox" data-field="interests.enabled"${config.interests.items.length || config.interests.enabled ? " checked" : ""}><span>Show an interests section (optional)</span></label>
                         ${config.interests.enabled ? `<div class="field"><label>Categories (comma-separated, in display order)</label><input data-field="interests.categories" value="${escapeHtml(config.interests.categories)}">${emojiPicker("interests.categories")}<span class="small">Examples: Games I own, Hobbies I like, Communities I'm in.</span></div>
                         <div class="row" style="justify-content:space-between"><h3>Vertical interest cards</h3><button type="button" data-action="add-interest">+ Add card</button></div>
-                        <div class="card-list">${config.interests.items.map((item, index) => `<div class="form-card"><div class="form-card-head"><strong>Interest ${index + 1}</strong><div class="tiny-actions"><button type="button" data-action="move-interest" data-index="${index}" data-direction="-1" aria-label="Move up">↑</button><button type="button" data-action="move-interest" data-index="${index}" data-direction="1" aria-label="Move down">↓</button><button class="danger" type="button" data-action="remove-interest" data-index="${index}">Remove</button></div></div><div class="field-row">${arrayInput("interests.items", index, "name", "Title", item.name || "", "text", true)}${arrayInput("interests.items", index, "category", "Category", item.category || "", "text", true)}</div>${arrayInput("interests.items", index, "note", "Short text (optional)", item.note || "", "text", true)}<div class="field"><label>Vertical banner background</label><input type="file" accept="image/*" data-interest-image="${index}"><span class="small">${item.image ? "Image selected. Choose another to replace it." : "Choose an image to crop into a vertical banner card."}</span>${item.image ? `<img src="${escapeHtml(item.image)}" alt="Banner preview" style="width:62px;height:90px;object-fit:cover;border-radius:8px">` : ""}</div><div class="field-row"><div class="field"><label>Horizontal crop</label><input type="range" min="0" max="100" data-array="interests.items" data-index="${index}" data-key="positionX" value="${escapeHtml(item.positionX ?? 50)}"></div><div class="field"><label>Vertical crop</label><input type="range" min="0" max="100" data-array="interests.items" data-index="${index}" data-key="positionY" value="${escapeHtml(item.positionY ?? 50)}"></div></div></div>`).join("")}</div>` : ""}`;
+                        <div class="card-list interests-card-list">${config.interests.items.map((item, index) => `<details class="form-card"${item.name || item.note || item.image ? "" : " open"}><summary><span><strong>Interest ${index + 1}</strong><span class="summary-title">${escapeHtml(item.name || "Untitled")}</span></span><div class="tiny-actions"><button type="button" data-action="move-interest" data-index="${index}" data-direction="-1" aria-label="Move up">↑</button><button type="button" data-action="move-interest" data-index="${index}" data-direction="1" aria-label="Move down">↓</button><button class="danger" type="button" data-action="remove-interest" data-index="${index}">Remove</button></div></summary><div class="details-body"><div class="field-row">${arrayInput("interests.items", index, "name", "Title", item.name || "", "text", true)}${interestCategorySelect(item, index)}</div>${arrayInput("interests.items", index, "note", "Short text (optional)", item.note || "", "text", true)}<div class="field"><label>Vertical banner background</label><input type="file" accept="image/*" data-interest-image="${index}"><span class="small">${item.image ? "Image selected. Choose another to replace it." : "Choose an image to crop into a vertical banner card."}</span>${item.image ? `<img src="${escapeHtml(item.image)}" alt="Banner preview" style="width:62px;height:90px;object-fit:cover;border-radius:8px">` : ""}</div><div class="field-row"><div class="field"><label>Horizontal crop</label><input type="range" min="0" max="100" data-array="interests.items" data-index="${index}" data-key="positionX" value="${escapeHtml(item.positionX ?? 50)}"></div><div class="field"><label>Vertical crop</label><input type="range" min="0" max="100" data-array="interests.items" data-index="${index}" data-key="positionY" value="${escapeHtml(item.positionY ?? 50)}"></div></div></div></details>`).join("")}</div>` : ""}`;
                 } else if (step.id === "extras") {
                     body = `<p class="small">Add optional standalone containers. You can reorder them. Buttons open safe HTTPS links in a new tab; image corners are adjustable.</p>
                         <div class="row"><button type="button" data-action="add-extra" data-type="text">+ Text container</button><button type="button" data-action="add-extra" data-type="button">+ Link button</button><button type="button" data-action="add-extra" data-type="image">+ Image</button></div>
@@ -1611,6 +1745,13 @@
                 updateWizardNextButton();
                 renderPreview();
                 window.scrollTo(0, 0);
+            }
+
+            function interestCategorySelect(item, index) {
+                const categories = String(config.interests.categories || "").split(",").map((part) => part.trim()).filter(Boolean);
+                const current = String(item.category || "");
+                if (current && !categories.includes(current)) categories.push(current);
+                return `<div class="field"><label>Category</label><div class="row" style="gap:6px"><select data-array="interests.items" data-index="${index}" data-key="category" style="flex:1"><option value=""${current ? "" : " selected"}>— choose a category —</option>${categories.map((cat) => `<option value="${escapeHtml(cat)}"${cat === current ? " selected" : ""}>${escapeHtml(cat)}</option>`).join("")}</select></div><span class="small">Categories come from the list above.</span></div>`;
             }
 
             function arrayInput(array, index, key, label, value, type = "text", withEmoji = false) {
@@ -1650,6 +1791,17 @@
                         return;
                     }
                     setPath(config, target.dataset.field, value);
+                    if (target.dataset.field === "interests.categories") {
+                        const categories = String(value || "").split(",").map((part) => part.trim()).filter(Boolean);
+                        wizardContent.querySelectorAll("select[data-key='category']").forEach((select) => {
+                            const current = select.value;
+                            const all = [...categories];
+                            if (current && !all.includes(current)) all.push(current);
+                            select.innerHTML = `<option value=""${current ? "" : " selected"}>— choose a category —</option>${all.map((cat) => `<option value="${escapeHtml(cat)}"${cat === current ? " selected" : ""}>${escapeHtml(cat)}</option>`).join("")}`;
+                        });
+                        renderPreview();
+                        return;
+                    }
                     if (target.dataset.field === "timezone.enabled") {
                         renderWizard();
                         return;
@@ -1662,6 +1814,10 @@
                 } else if (target.dataset.array) {
                     const array = target.dataset.array === "interests.items" ? config.interests.items : config[target.dataset.array];
                     array[Number(target.dataset.index)][target.dataset.key] = value;
+                    if (target.dataset.key === "name") {
+                        const summaryTitle = target.closest("details.form-card")?.querySelector(".summary-title");
+                        if (summaryTitle) summaryTitle.textContent = value || "Untitled";
+                    }
                     if (target.dataset.key === "type" && target.dataset.array === "stats") {
                         const stat = config.stats[Number(target.dataset.index)];
                         if (stat.type === "date" && !/^\d{4}-\d{2}-\d{2}$/.test(stat.value)) stat.value = "";
@@ -2027,6 +2183,7 @@
                             config = parseManagedPortfolio(decodeContent(file));
                             existingSha = file.sha;
                             managedPortfolio = true;
+                            await hydrateMedia(config);
                             mode = "edit";
                             showView("editor");
                         } catch (err) {
@@ -2260,6 +2417,7 @@
                         config = parseManagedPortfolio(decodeContent(file));
                         existingSha = file.sha;
                         managedPortfolio = true;
+                        await hydrateMedia(config);
                     } else {
                         let contents;
                         try {
@@ -2382,6 +2540,8 @@
                 let running = 0;
                 let failed = false;
                 let complete = true;
+                let sawSuccess = false;
+                let sawCancelled = false;
                 for (const job of jobs) {
                     const item = document.createElement("li");
                     item.className = "publish-build-job";
@@ -2390,7 +2550,13 @@
                         complete = false;
                         running++;
                     }
-                    if (job.status === "completed" && !["success", "neutral", "skipped"].includes(job.conclusion)) failed = true;
+                    if (job.status === "completed") {
+                        // "cancelled" means the run was superseded by a newer commit's
+                        // build, not that the site failed to publish.
+                        if (job.conclusion === "cancelled") sawCancelled = true;
+                        else if (["success", "neutral", "skipped"].includes(job.conclusion)) sawSuccess = true;
+                        else failed = true;
+                    }
                     const jobHref = typeof job.html_url === "string" ? new URL(job.html_url) : null;
                     const name = jobHref?.protocol === "https:" && jobHref.hostname === "github.com"
                         ? document.createElement("a")
@@ -2424,7 +2590,10 @@
                     }
                     list.append(item);
                 }
-                return { complete, failed, running, total: jobs.length };
+                // Every job was cancelled and none succeeded: this run was superseded
+                // by a newer commit's build, so the caller should follow that one.
+                const superseded = !sawSuccess && sawCancelled && !failed;
+                return { complete, failed, running, total: jobs.length, superseded };
             }
 
             async function checkWorkflowJobs(owner, repoName, runId, generation) {
@@ -2465,10 +2634,23 @@
                         const result = await response.json();
                         if (generation !== publishCheckGeneration) return;
                         const runs = Array.isArray(result.workflow_runs) ? result.workflow_runs : [];
-                        const run = runs.find((item) =>
-                            item.head_sha === commitSha &&
-                            (`${item.name || ""} ${item.path || ""}`).toLowerCase().includes("pages")
-                        );
+                        // GitHub Pages cancels the build of any commit that is not the
+                        // branch head, so the run for our commit may have been superseded
+                        // by a newer one. In that case, follow the newest Pages run — it
+                        // is the one that actually deploys the final site.
+                        const isPagesRun = (item) => (`${item.name || ""} ${item.path || ""}`).toLowerCase().includes("pages");
+                        const matched = runs.find((item) => item.head_sha === commitSha && isPagesRun(item));
+                        if (matched && (matched.conclusion === "cancelled" || matched.conclusion === "skipped")) {
+                            const newest = runs.find(isPagesRun);
+                            if (newest && newest.head_sha !== commitSha) {
+                                if (generation !== publishCheckGeneration) return;
+                                currentPublishRunId = "";
+                                commitSha = newest.head_sha;
+                                // fall through: runId is still empty, so the waiting
+                                // branch below keeps polling against the newer commit
+                            }
+                        }
+                        const run = matched;
                         if (run) {
                             runId = String(run.id);
                             currentPublishRunId = runId;
@@ -2518,6 +2700,20 @@
                     setPublishStep("#publish-build-step", "current");
                     $("#publish-title").textContent = "GitHub is building your website";
                     if (progress.complete && progress.total > 0) {
+                        if (progress.superseded) {
+                            // The run we followed was cancelled because a newer commit
+                            // took over. Follow the newest Pages run instead — it is the
+                            // one that deploys the final site.
+                            currentPublishRunId = "";
+                            setPublishStep("#publish-build-step", "current");
+                            $("#publish-title").textContent = "A newer build took over";
+                            $("#publish-detail").textContent = "GitHub started a newer build for your latest changes, so the older run was cancelled. Following the newest build now…";
+                            publishCheckTimer = window.setTimeout(
+                                () => checkPagesDeployment(commitSha, 0, generation),
+                                3000
+                            );
+                            return;
+                        }
                         if (progress.failed) {
                             setPublishStep("#publish-build-step", "error");
                             $("#publish-title").textContent = "GitHub could not publish the site";
@@ -2640,19 +2836,29 @@
                         throw new Error("Publishing cancelled because the timezone time did not match.");
                     }
                     const sha = await ensureNoConcurrentEdit();
-                    const content = normalizeGeneratedPortfolio(generatedPortfolio(config));
-                    if (content.length > 900000) {
-                        const mediaChars = [
-                            config.icon || "",
-                            ...config.profile.images.map((image) => image.data),
-                            config.profile.banner.data || "",
-                            ...config.socials.map((social) => social.iconData || ""),
-                            ...config.interests.items.map((item) => item.image || ""),
-                            ...config.extras.map((item) => item.image || "")
-                        ].reduce((total, image) => total + image.length, 0);
-                        throw new Error(`This portfolio is still too large for GitHub (${Math.ceil(content.length / 1024)} KB; limit 900 KB). Remove some images or use fewer/smaller pictures. Images account for about ${Math.ceil(mediaChars / 1024)} KB.`);
-                    }
                     await ensureEmojiAssets(config);
+                    // Upload each image as its own file under media/ so index.html
+                    // stays small (GitHub refuses single files over 1 MB). Images
+                    // whose content did not change keep the same filename and are
+                    // skipped, so only actual changes are uploaded.
+                    const mediaFiles = collectMediaFiles(config);
+                    if (mediaFiles.size > 0) {
+                        showStatus($("#save-status"), `Now it's GitHub's turn — uploading ${mediaFiles.size} image${mediaFiles.size === 1 ? "" : "s"} (unchanged ones are skipped automatically)…`);
+                    }
+                    let uploadedCount = 0;
+                    for (const [name, dataUri] of mediaFiles) {
+                        await putRepoFile(name, dataUri, managedPortfolio ? "Update portfolio media with portifol Studio" : "Add portfolio media with portifol Studio");
+                        uploadedCount++;
+                        if (mediaFiles.size > 1) {
+                            showStatus($("#save-status"), `Now it's GitHub's turn — ${uploadedCount} of ${mediaFiles.size} images done…`);
+                        }
+                    }
+                    const publishConfig = withMediaPaths(config);
+                    const content = normalizeGeneratedPortfolio(generatedPortfolio(publishConfig));
+                    if (content.length > 900000) {
+                        throw new Error(`This portfolio is too large for GitHub (${Math.ceil(content.length / 1024)} KB; limit 900 KB). Remove some images, or use fewer/smaller pictures.`);
+                    }
+                    showStatus($("#save-status"), "Now it's GitHub's turn — saving your updated portfolio page. GitHub will build the site after this, which can take a minute…");
                     const payload = {
                         message: managedPortfolio ? "Update portfolio with portifol Studio" : "Create portfolio with portifol Studio",
                         content: utf8ToBase64(content),
@@ -2663,9 +2869,22 @@
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(payload)
                     });
+                    // Remove media files that are no longer referenced by the portfolio.
+                    await pruneMediaFiles(new Set(mediaFiles.keys()), "Remove unused portfolio media with portifol Studio");
                     existingSha = saved.content.sha;
                     managedPortfolio = true;
-                    showPortfolioSaved(saved.commit?.sha || "");
+                    // The prune step (and each media upload) creates its own commit,
+                    // and GitHub Pages cancels the build of any commit that is not
+                    // the branch head. Resolve the branch's final head commit so the
+                    // progress tracker follows the build that actually completes.
+                    let finalCommitSha = saved.commit?.sha || "";
+                    try {
+                        const head = await githubRequest(`/repos/${encodeURIComponent(account)}/${encodeURIComponent(repository.name)}/commits?per_page=1`);
+                        if (Array.isArray(head) && head[0]?.sha) finalCommitSha = head[0].sha;
+                    } catch (error) {
+                        console.warn("Could not resolve the final commit SHA; falling back to the index.html commit.", error);
+                    }
+                    showPortfolioSaved(finalCommitSha);
                 } catch (error) {
                     showStatus($("#save-status"), `Could not complete publishing: ${error.message}`, "error");
                 } finally {
