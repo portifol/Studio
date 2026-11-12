@@ -326,6 +326,7 @@
         .portfolio-status { color: #8f6c77; margin: 0 0 14px; }
         .portfolio-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 18px 0; }
         .portfolio-stat { position: relative; border-radius: 10px; padding: 9px; background: var(--p-soft, #ffe4e9); font-size: .88rem; font-weight: 650; color: var(--p-ink, #4a4a4a); }
+        .portfolio-stat:last-child:nth-child(odd) { grid-column: 1 / -1; }
         .portfolio-badges { display: flex; justify-content: flex-start; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
         .portfolio-badges img { width: 30px; height: 30px; object-fit: contain; }
         .portfolio-bio { border-left: 4px solid var(--p-accent); padding: 14px; background: #fffcfc; border-radius: 8px; text-align: left; line-height: 1.65; white-space: pre-wrap; overflow-wrap: anywhere; }
@@ -579,7 +580,7 @@
                             <li>Select <strong>Deploy from a branch</strong>.</li>
                             <li>For the branch, pick the one that says <strong>main</strong> or <strong>master</strong> (usually the first one).</li>
                             <li>For the folder, pick <strong>/ (root)</strong>.</li>
-                            <li>Then press the green <strong>Save</strong> button.</li>
+                            <li>Then press the gray <strong>Save</strong> button.</li>
                         </ul>
                         <p>That’s it! GitHub will start building your site. It can take a minute or two.</p>
                     </div>
@@ -764,7 +765,7 @@
                 .portfolio-photos img{width:100px;height:100px;border-radius:50%;object-fit:cover;border:4px solid white;box-shadow:0 3px 12px #3333}
                 .portfolio-photos.carousel{display:block;width:min(390px,100%);min-height:0;aspect-ratio:3/1;margin:auto;overflow:hidden;touch-action:pan-y;user-select:none}.portfolio-photos.carousel img{position:absolute;top:0;width:33.3333%;height:100%;aspect-ratio:1;border:0;border-radius:50%;object-fit:cover;cursor:grab;-webkit-user-drag:none}.portfolio-photos.carousel .pfp-left{left:0;opacity:.5;transform:scale(.75)}.portfolio-photos.carousel .pfp-center{left:33.3333%;opacity:1;transform:scale(1);z-index:2}.portfolio-photos.carousel .pfp-right{left:66.6667%;opacity:.5;transform:scale(.75)}.portfolio-photos.carousel .pfp-incoming{display:none;left:0;pointer-events:none}.portfolio-photos.carousel .pfp-enter-from-left{left:0}.portfolio-photos.carousel .pfp-enter-from-right{left:66.6667%}.portfolio-photos.carousel.is-animating .pfp-incoming{display:block}
                 .portfolio-status{color:#8f6c77;margin:0 0 14px}
-                .portfolio-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:18px 0}.portfolio-stat{position:relative;padding:10px;border-radius:10px;background:var(--p-soft);font-weight:650;font-size:.92rem;cursor:default}
+                .portfolio-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:18px 0}.portfolio-stat{position:relative;padding:10px;border-radius:10px;background:var(--p-soft);font-weight:650;font-size:.92rem;cursor:default}.portfolio-stat:last-child:nth-child(odd){grid-column:1/-1}
                 .portfolio-stat[data-hint]{cursor:help}.portfolio-stat[data-hint]:hover:after,.portfolio-stat[data-hint]:focus-visible:after{content:attr(data-hint);position:absolute;z-index:5;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);padding:6px 12px;border-radius:8px;background:#4a4a4a;color:white;font-size:.78rem;font-weight:400;white-space:nowrap;box-shadow:0 3px 10px #0002}
                 .portfolio-badges{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}.portfolio-badges img{width:32px;height:32px;object-fit:contain}
                 .portfolio-bio{padding:16px;border-left:4px solid var(--p-accent);border-radius:8px;background:#fffcfc;text-align:left;white-space:pre-wrap;line-height:1.7;overflow-wrap:anywhere}
@@ -784,7 +785,7 @@
                 .portfolio-photos{display:flex;justify-content:center;align-items:center;gap:8px;min-height:120px}.portfolio-photos.align-left{justify-content:flex-start}.portfolio-photos.align-right{justify-content:flex-end}
                 .portfolio-photos img{width:100px;height:100px;border-radius:50%;object-fit:cover;border:4px solid white;box-shadow:0 3px 12px #3333}
                 .portfolio-photos.carousel{overflow-x:auto;scroll-snap-type:x mandatory}.portfolio-photos.carousel img{flex:0 0 78px;width:78px;height:78px;scroll-snap-align:center}.portfolio-status{color:#8f6c77;margin:0 0 14px}
-                .portfolio-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:18px 0}.portfolio-stat{position:relative;padding:10px;border-radius:10px;background:var(--p-soft);font-weight:650;font-size:.92rem}
+                .portfolio-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:18px 0}.portfolio-stat{position:relative;padding:10px;border-radius:10px;background:var(--p-soft);font-weight:650;font-size:.92rem}.portfolio-stat:last-child:nth-child(odd){grid-column:1/-1}
                 .portfolio-badges{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0}.portfolio-badges img{width:32px;height:32px;object-fit:contain}
                 .portfolio-bio{padding:16px;border-left:4px solid var(--p-accent);border-radius:8px;background:#fffcfc;text-align:left;white-space:pre-wrap;line-height:1.7;overflow-wrap:anywhere}
                 .portfolio-socials{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:18px}.portfolio-socials a,.portfolio-button{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:24px;background:var(--p-accent);color:#fff;text-decoration:none;font-weight:bold}
@@ -963,8 +964,9 @@
             // from the image content, so unchanged images keep the same file
             // and are not re-uploaded on every save.
             function mediaFileName(dataUri) {
-                const isPng = dataUri.startsWith("data:image/png;base64,");
-                return `media/img-${mediaHash(dataUri)}.${isPng ? "png" : "webp"}`;
+                const uri = typeof dataUri === "string" ? dataUri : "";
+                const isPng = uri.startsWith("data:image/png;base64,");
+                return `media/img-${mediaHash(uri)}.${isPng ? "png" : "webp"}`;
             }
 
             function mediaHash(text) {
@@ -976,12 +978,16 @@
             }
 
             function eachMediaReference(config, visit) {
-                if (typeof config.icon === "string" && config.icon.startsWith("data:image/")) visit(config, "icon");
-                (config.profile.images || []).forEach((image) => visit(image, "data"));
-                if (config.profile.banner) visit(config.profile.banner, "data");
-                (config.socials || []).forEach((social) => visit(social, "iconData"));
-                (config.interests.items || []).forEach((item) => visit(item, "image"));
-                (config.extras || []).forEach((extra) => visit(extra, "image"));
+                // Only visit values that are embedded image data URIs; anything
+                // else (undefined, media/ paths, URLs) is skipped so callers
+                // never crash on missing images.
+                const isDataUri = (value) => typeof value === "string" && value.startsWith("data:image/");
+                if (isDataUri(config.icon)) visit(config, "icon");
+                (config.profile.images || []).forEach((image) => { if (isDataUri(image.data)) visit(image, "data"); });
+                if (config.profile.banner && isDataUri(config.profile.banner.data)) visit(config.profile.banner, "data");
+                (config.socials || []).forEach((social) => { if (isDataUri(social.iconData)) visit(social, "iconData"); });
+                (config.interests.items || []).forEach((item) => { if (isDataUri(item.image)) visit(item, "image"); });
+                (config.extras || []).forEach((extra) => { if (isDataUri(extra.image)) visit(extra, "image"); });
             }
 
             function withMediaPaths(config) {
@@ -2550,8 +2556,15 @@
                         if (error.status !== 404 && !String(error.message).includes("Not Found")) throw error;
                         contents = [];
                     }
-                    if (!Array.isArray(contents) || contents.some((item) => item.type !== "file" || !/^(readme(?:\.[^.]*)?|pages\.init)$/i.test(item.name))) {
-                        throw new Error("The repository is no longer empty (except for an optional README or pages.init). No changes were made.");
+                    // The repo may contain media/ (our uploaded images) and
+                    // .github/ (created by GitHub Pages) from a previous publish;
+                    // those are ours, so they don't block publishing. Any other
+                    // root entry is unexpected content, so publishing is refused.
+                    const allowedRootEntry = (item) =>
+                        (item.type === "file" && /^(readme(?:\.[^.]*)?|pages\.init)$/i.test(item.name)) ||
+                        (item.type === "dir" && /^(media|\.github)$/i.test(item.name));
+                    if (!Array.isArray(contents) || contents.some((item) => !allowedRootEntry(item))) {
+                        throw new Error("The repository is no longer empty (except for an optional README, pages.init, or media//.github from a previous portifol publish). No changes were made.");
                     }
                 }
                 return sha;
